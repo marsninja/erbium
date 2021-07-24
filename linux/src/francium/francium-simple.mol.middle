@@ -1,0 +1,30 @@
+    while(j<3)
+    {
+      counter k; k=0;
+      while(k<4&& (j<=tq_num))
+      {
+        if(type_queue[j]==0)
+        {
+          build_around.build(0,<liv_rm[elm_queue[j]]>);
+        } 
+        else if(type_queue[j]==1)
+        {
+          build_around.build(0,<din_rm[elm_queue[j]]>);
+        } 
+        else if(type_queue[j]==2)
+        {
+          build_around.build(2,<kit_rm[elm_queue[j]]>);
+        } 
+        else if(type_queue[j]==3)
+        {
+          build_around.build(3,<hall_wy[elm_queue[j]]>);
+        } 
+        else if(type_queue[j]==4)
+        {
+          build_around.build(4,<bed_rm[elm_queue[j]]>);
+        } 
+        else ;
+        k=k+1;
+      } 
+      j=j+1;
+    }

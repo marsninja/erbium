@@ -1,0 +1,100 @@
+load cube;
+
+//Yeah;
+
+underwalk
+{
+  cube top:
+  {
+    w=64->300;
+    l=64->300;
+    h=10->20;
+  }
+  cube legsblock:
+  {
+    w=top.w;
+    l=top.l;
+    h=64->200;
+    x=top.x;
+    y=top.y;
+    z=top.z-h;
+  }
+  cube legsub1:
+  {
+    dim=legsblock.dim;
+    pos=legsblock.pos;
+    w=64->(top.w-4);
+    x=legsblock.x+((legsblock.w-w)/2);
+  }
+  cube legsub2:
+  {
+    dim=legsblock.dim;
+    pos=legsblock.pos;
+    l=64->(top.l-4);
+    y=legsblock.y+((legsblock.l-l)/2);
+  }
+  cube plank:
+  {
+    w=64->180;
+    l=64->180;
+    h=5;
+    plank.rotate.x(30->70);
+    x=legsblock.w/2-w/2;
+    y=legsblock.y-(150->300);
+    plank.move.y(20);
+    z=legsblock.z;
+    h=top.z-z;
+    l=legsblock.y-y;
+  }
+} [top+((legsblock-legsub1)-legsub2)+plank]
+
+room
+{
+  number thickness=30;
+  cube main:
+  {
+    w=400->1000;
+    l=400->1000;
+    h=400->1000;
+  }
+  cube cutter;
+
+  cutter=[main];
+  cutter.w=cutter.w-thickness;
+  cutter.l=cutter.l-thickness;
+  cutter.h=cutter.h-thickness;
+  cutter.x=main.x+thickness/2;
+  cutter.y=main.y+thickness/2;
+  cutter.z=main.z+thickness/2;
+  
+  underwalk.generate;
+  underwalk thing;
+  thing.pos=main.pos;
+  thing.x=main.x+(20->(main.w-thing.w));
+  thing.y=main.y+(20->(main.l-thing.l));
+  thing.z=thing.z+20;
+
+} [main-cutter+thing]
+
+room.generate;
+underwalk.generate;
+room myroom;
+
+room.generate; 
+room urroom;
+urroom.x=myroom.x+myroom.w;
+cube cutty;
+cutty.x=myroom.x+myroom.w-31;
+cutty.y=20->(myroom.l-20);
+cutty.z=20;
+cutty.w=100->300;
+cutty.l=100->300;
+cutty.h=100->300;
+myroom=[(myroom+urroom)-cutty];
+
+myroom.printmap;
+
+//maybe(.4) myroom.printmap 
+//maybe(.2) urroom.printmap 
+//otherwise underwalk.printmap;
+

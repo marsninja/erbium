@@ -1,0 +1,3 @@
+../../bin/molokai $1 > t.erb
+../../bin/erb-asm t.erb t.ebx
+../../bin/erb-vm t.ebx

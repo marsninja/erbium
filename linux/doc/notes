@@ -1,0 +1,205 @@
+The Engine
+
+The Language
+
+
+Our domain consists of 3d convex polyhedra (brushes), locations in cartesian 
+space the bounding box around it, a way to uniquely identify them, counters
+and operations that can be performed on them. The polyhedra are the most 
+atomic aspects of the world; everything is build from these polyhedra. This 
+is analogous to the byte in traditional computation. 
+
+The 3d object that can be build with programs written within this world
+will strictly contain convex polyhedra and the operations that Constructive
+Solid Geometry can perform on these polyhedra as well as tradition
+transformation instructions.
+
+
+GAM
+Geometric Abstraction Machine
+
+
+We must have a machine on which our programs run. This is the GAM. This 
+machine contains memory units (elements) and addresses to those memory units
+all operations act upon memory units. There are 3 classes of memory units.
+There is a class for constructs, one for values (floats), and one for 
+counters (unsigned longs). 
+
+A construct is a collection of convex polyhedra that forms a 3d object. 
+  Example Construct;
+
+  Chair            //construct
+    Chair leg 1    //its brushes  
+    Chair leg 2
+    Chair leg 3
+    Chair leg 4
+    Chair seat
+    Chair back
+
+Each construct element (memory unit) can contain an arbitrary number of 
+brushes. The set of operations act upon elements. Each construct element is 
+denoted by e followed by an number, some operation may be, 
+
+  sub e3 e1 e2 #e3 is the destination e1 and e2 are operands 
+  uni e5 e2 e3
+  itr e6 e5 e1
+
+This shows the 3 CSG operations on our machine. 
+
+We must also be able to access the location and dimentions of an element.
+(ie bounding box) It would look like the following
+
+  xput e1 xloc(e2)
+  yput e1 yloc(e2)+ydim(e2)
+  zput e1 0
+
+A better representation would be
+
+  tran e1 (xloc(e2), yloc(e2)+ydim(e2), 0)
+  
+Control Flow
+
+For computational creativity we use randomization. We take traditional 
+branches, and introduce point of creativity branches. These are branches
+that have a probability of being taken. This is also where the counters 
+come in. A counter type is essencitally an unsigned int. In our machine
+it is represented with a 'c' followed by a number. 
+
+  jne c1 c2 dest #dest is also a counter
+  jlt c1 c2 dest #these are examples of traditional branches
+  
+  jchance 50 dest #there is a 50% chance this branch will be taken
+  jchanes c1 dest  
+
+  
+Operations
+
+
+There are 3 classes of operands
+Class E: construct (memory unit containing a collection of brushes)
+Class C: counter (used to assist in control flow and keep counts)
+Class V: values (values used for distances, locations, and degrees)
+  these can be immediates
+  and element relative is 
+  
+Operations include but are not limited to:
+
+expand type units //allocate more memory 
+deflate type units //de-allocate memory
+pload prim_id //load a primitive from file "prim.set"
+
+cuni dest source1 source2 //E - union 
+cinter dest source1 source2 //E - intersection
+csub dest source1 source2 //E - subtraction
+crotx dest xval //E - rotate
+croty dest yval 
+crotz dest zval
+cputx dest xval  //E - translate
+cputy dest yval 
+cputz dest zval
+cscalex dest xval //E - scale
+cscaley dest yval 
+cscalez dest zval
+
+copy type dest source //E+C+V - copy 
+
+seti type dest imm //C+V set immediate
+add type dest source1 source2
+addi type dest source1 imm
+sub type dest source1 source2
+subi type dest source1 imm
+mult type dest source1 source2
+multi type dest source1 imm
+div type dest source1 source2
+divi type dest source1 imm
+mod type dest source1 source2 //C only
+modi type dest source1 imm
+
+jump dest //C - unconditional branch
+jeq type source1 source2 dest //E+C+V - jump equal
+jne type source1 source2 dest
+jlt type source1 source2 dest
+jgt type source1 source2 dest
+jlte type source1 source2 dest
+jgte type source1 source2 dest
+jsub dest //jump to a sub routine
+ret //return 
+
+  meta: xrot value
+        yrot value
+        zrot value
+        xput value
+        yput value
+        zput value
+        xsca value
+        ysca value
+        zsca value
+
+note: type: e-0, c-1, v-2
+
+Low Level Lang
+
+The simplest way to represent the full computational power of the machine. 
+Ascii version of instructions. Includes labels;
+
+High Level Language
+
+This is the High Level representation, It must be very easy to read and user
+freindly. Here is an example,
+
+  
+load cube;
+  
+chair
+{
+cube seat:
+  width=50->100;
+  length=50->100;
+  height=4;
+cube legsblock:
+  width=seat.w;
+  length=seat.l;
+  height=10->100;
+  x=seat.x;
+  y=seat.y;
+  z=seat.z->h;
+cube legsub1:
+  dim=legsblock.dim;
+  width=25->(seat.w-5);
+  pos=legsblock.pos;
+  x=legsblock.x+(width/2);
+cube legsub2:
+  dim=legsblock.dim;
+  length=25->(seat.l-5);
+  pos=legsblock.pos;
+  y=legsblock.y+(length/2);
+cube back:
+  width=seat.w;
+  length=5->(0.75*seat.length); 
+  height=10->100;
+} [seat+((legsblock-legsub1)-legsub2)+back]
+
+table
+{
+  {
+    gen chair mychair;
+    dup mychair[4];
+    rotate(mychair[0], zaxis, 180);
+    rotate(mychair[1], zaxis, 180);
+  }
+block:
+  width=(mychair.w*2)-(mychair.w*4);
+  length=20-200;
+  height=20-100;
+legsub:
+  dim=block.dim;
+  width=block.w-(10->50);
+  height=block.h-(10->50);
+  x=block.x+(width/2);
+  {
+    //set chair 1 pos
+    //set chair 2 pos
+    //set chair 3 pos
+    //set chair 4 pos
+  }
+} [block-legsub+mychair]

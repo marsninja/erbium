@@ -1,0 +1,35 @@
+  generate.build();
+  
+  
+  counter i; i=0;
+  construct plan;
+  while(i<10)
+  {
+    if(i<liv_num)
+    <plan> = <plan> + <liv_rm[i]>; else ;
+    if(i<kit_num) 
+    <plan> = <plan> + <kit_rm[i]>; else ;
+    if(i<din_num)
+    <plan> = <plan> + <din_rm[i]>; else ;
+    if(i<hw_num)
+    <plan> = <plan> + <hall_wy[i]>; else ;
+    if(i<bed_num)
+    <plan> = <plan> + <bed_rm[i]>; else ;
+    i=i+1;
+  }
+
+block.build(plan.width, plan.length, 500);
+construct sub; <sub> = <block>; 
+block.x_coord=plan.x_coord; block.y_coord=plan.y_coord; block.z_coord=plan.z_coord;
+
+sub.x_coord=plan.x_coord+10; sub.y_coord=plan.y_coord+10; sub.z_coord=plan.z_coord+10;
+sub.height=sub.height-20; sub.width=sub.width-20; sub.length=sub.length-20;
+
+<plan> = <plan> + (<block> - <sub>);
+
+}[<plan>]
+
+gen_floor_plan.build();
+
+  
+gen_floor_plan.printmap; 

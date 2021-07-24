@@ -1,0 +1,343 @@
+load cube; //load the cube primtive from builders.prim
+ 
+construct block(number wi, number le, number he) //make a block of size w,l,h
+{
+  construct main; 
+  <main> = <cube>;  
+
+  main.width=wi;
+  main.length=le;
+  main.height=he;
+} [<main>]
+
+construct couch(number wi, number le, number he)
+{
+  construct arm1; construct arm2; 
+  construct seat; construct back;
+   
+  <arm1> = <arm2> = <seat> = <back> = <cube>;
+
+  arm1.length=arm2.length=le;
+  back.length=le*.2;
+  seat.length=le*.9;
+  arm1.width=arm2.width=wi*.2;
+  back.width=seat.width=wi*.6;
+  back.x_coord=seat.x_coord=arm1.x_coord+arm1.width;
+  arm2.x_coord=back.x_coord+back.width; 
+  seat.y_coord=back.y_coord+back.length;
+  back.height=arm1.height=arm2.height=he;
+  seat.height=he*.5;
+  
+} [<arm1>+<arm2>+<seat>+<back>]
+
+construct table(number wi, number le, number he)
+{
+  construct main; construct sub1; construct sub2;
+  
+  block.build(wi, le, he);
+  <main> = <sub1> = <sub2> = <block>;
+  sub1.height=sub2.height=main.height-5;
+  sub1.x_coord=sub1.x_coord+5; sub1.width=sub1.width-10;
+  sub2.y_coord=sub2.y_coord+5; sub2.length=sub1.length-10;
+  
+}[(<main> - <sub1>) - <sub2>]
+
+construct bed(number wi, number le, number he)
+{
+  construct main; construct sub1;
+  
+  block.build(wi, le, he);
+  <main> = <sub1> = <block>;
+  sub1.z_coord=main.z_coord+main.height; sub1.height=15;
+  sub1.x_coord=sub1.x_coord+5; sub1.width=20;
+  sub1.y_coord=sub1.y_coord+5; sub1.length=main.length-10;
+  
+}[<main> + <sub1>]
+
+
+construct gen_floor_plan()
+{
+  
+  construct x_wall(number le, number he, number thick)
+  {
+    block.build(le, thick, he);
+  } [<block>]
+  
+  construct y_wall(number le, number he, number thick)
+  {
+    block.build(thick, le, he);
+  } [<block>]
+  
+  construct floor_section(number wi, number le, number thick)
+  {
+    block.build(wi, le, thick);
+    <floor_section> = <block>;
+
+    x_wall.build(wi*.6, 300, thick);
+    x_wall.x_coord=floor_section.x_coord+wi*.2;
+    <floor_section> = <floor_section> + <x_wall>;
+    x_wall.y_coord=floor_section.y_coord+le-thick;
+    <floor_section> = <floor_section> + <x_wall>;
+
+    y_wall.build(le*.6, 300, thick);
+    y_wall.y_coord=floor_section.y_coord+le*.2;
+    <floor_section> = <floor_section> + <y_wall>;
+    y_wall.x_coord=floor_section.x_coord+wi-thick;
+    <floor_section> = <floor_section> + <y_wall>;
+
+  } [<floor_section>]
+
+  construct scrib_floor(counter type, number wi, number le)
+  {
+    //type is {liv_rm = 0, din_rm = 1, kit_rm = 2, hall_wy = 3, bed_rm = 4}
+    construct obj; <obj> = <cube>;
+    
+    if(type==0) 
+    {
+      floor_section.build(wi,le, 10);
+      couch.build(100->150, 40->60, 30->40);
+      couch.x_coord=floor_section.x_coord+floor_section.width/2;
+      couch.y_coord=floor_section.y_coord+floor_section.length/2;
+      couch.z_coord=floor_section.z_coord+10;
+      <obj> = <couch>;
+    }
+    else if(type==1) 
+    {
+      floor_section.build(wi, le, 10);
+      table.build(64->100, 64->100, 30->40);
+      table.x_coord=floor_section.x_coord+floor_section.width/2;
+      table.y_coord=floor_section.y_coord+floor_section.length/2;
+      table.z_coord=floor_section.z_coord+10;
+      <obj> = <table>;
+    }
+    else if(type==2) floor_section.build(wi, le, 10);
+    else if(type==3) floor_section.build(wi, le, 10);
+    else if(type==4) 
+    {
+      floor_section.build(wi, le, 10);
+      bed.build(70->80, 40->80, 25->35);
+      bed.x_coord=floor_section.x_coord+floor_section.width/2;
+      bed.y_coord=floor_section.y_coord+floor_section.length/2;
+      bed.z_coord=floor_section.z_coord+10;
+      <obj> = <bed>;
+    }
+    else ;
+
+    <floor_section> = <floor_section> + <obj>;
+    
+  } [<floor_section>]
+ 
+  construct room_floor(counter type)
+  {
+    //type is {liv_rm = 0, din_rm = 1, kit_rm = 2, hall_wy = 3, bed_rm = 4}
+    construct obj; <obj> = <cube>;
+    
+    if(type==0) 
+    {
+      floor_section.build(500->800,300->600, 10);
+      couch.build(100->150, 40->60, 30->40);
+      couch.x_coord=floor_section.x_coord+floor_section.width/2;
+      couch.y_coord=floor_section.y_coord+floor_section.length/2;
+      couch.z_coord=floor_section.z_coord+10;
+      <obj> = <couch>;
+    }
+    else if(type==1) 
+    {
+      floor_section.build(300->400, 300->400, 10);
+      table.build(64->100, 64->100, 30->40);
+      table.x_coord=floor_section.x_coord+floor_section.width/2;
+      table.y_coord=floor_section.y_coord+floor_section.length/2;
+      table.z_coord=floor_section.z_coord+10;
+      <obj> = <table>;
+    }
+    else if(type==2) floor_section.build(200->400, 200->400, 10);
+    else if(type==3) floor_section.build(64->128, 300->400, 10);
+    else if(type==4) 
+    {
+      floor_section.build(200->500, 200->500, 10);
+      bed.build(70->80, 40->80, 25->35);
+      bed.x_coord=floor_section.x_coord+floor_section.width/2;
+      bed.y_coord=floor_section.y_coord+floor_section.length/2;
+      bed.z_coord=floor_section.z_coord+10;
+      <obj> = <bed>;
+    }
+    else ;
+
+    <floor_section> = <floor_section> + <obj>;
+    
+  } [<floor_section>]
+  
+  construct rand_connect(construct rm, construct targ)
+  {
+    rm.x_coord=targ.x_coord;
+    rm.y_coord=targ.y_coord;
+    maybe(.25)
+      rm.x_coord=targ.x_coord+targ.width;
+    otherwise maybe(.25)
+      rm.y_coord=targ.y_coord+targ.length;
+    otherwise maybe(.25)
+      rm.x_coord=targ.x_coord-rm.width;
+    otherwise maybe(.25)
+      rm.y_coord=targ.y_coord-rm.length;
+    otherwise
+    {
+      rand_connect.build(<rm>, <targ>);
+      <rm> = <rand_connect>;
+    }
+  } [<rm>]
+
+  construct liv_rm[10]; counter liv_num; //*_num notes how many built
+  construct din_rm[10]; counter din_num;
+  construct kit_rm[10]; counter kit_num;
+  construct hall_wy[10]; counter hw_num;
+  construct bed_rm[10]; counter bed_num;
+  
+  counter type_queue[20]; counter tq_num; //keep tracks of what to build next
+  counter elm_queue[20]; counter eq_num; //keep tracks of what to build next
+  counter try_limit; try_limit=50; //flags etc
+  counter giveup; giveup=0;
+  
+  liv_num=din_num=kit_num=hw_num=bed_num=eq_num=tq_num=0;
+  
+  counter collision(construct rm)
+  {
+    counter ret; ret=0;
+    counter i; i=0;
+    while(i<10)
+    {
+      if(rm collides liv_rm[i]) {ret=1; break;}
+      else if(rm collides kit_rm[i]) {ret=1; break;}
+      else if(rm collides din_rm[i]) {ret=1; break;}
+      else if(rm collides hall_wy[i]) {ret=1; break;}
+      else if(rm collides bed_rm[i]) {ret=1; break;}
+      else ;
+      i=i+1;
+    }
+    if(ret&&try_limit)
+    {try_limit=try_limit-1; if(try_limit==0){ret=0; try_limit=50; giveup=1;} else; } else;
+  } [ret]
+
+  construct build_around(counter type, construct cons)
+  {
+    //type is {liv_rm = 0, din_rm = 1, kit_rm = 2, hall_wy = 3, bed_rm = 4}
+    counter new_type;
+    
+    collision=1;
+
+    if(type==0)
+    {
+      while(collision)
+      {
+        maybe(.35) new_type=1;
+        otherwise maybe(.35) new_type=2;
+        otherwise maybe(.35) new_type=4;
+        otherwise continue;
+        room_floor.build(new_type);
+        
+        rand_connect.build(<room_floor>, <cons>);
+        collision.build(<rand_connect>);
+      }
+    }
+    else if(type==1)
+    {
+      while(collision)
+      {
+        maybe(.5) new_type=0;
+        otherwise maybe(.5) new_type=2;
+        otherwise continue;
+        room_floor.build(new_type);
+        
+        rand_connect.build(<room_floor>, <cons>);
+        collision.build(<rand_connect>);
+      }
+    }
+    else if(type==2)
+    {
+      while(collision)
+      {
+        maybe(.5) new_type=1;
+        otherwise maybe(.5) new_type=3;
+        otherwise continue;
+        room_floor.build(new_type);
+        
+        rand_connect.build(<room_floor>, <cons>);
+        collision.build(<rand_connect>);
+      }
+    }
+    else if(type==3)
+    {
+      while(collision)
+      {
+        new_type=4;
+        room_floor.build(new_type);
+        
+        rand_connect.build(<room_floor>, <cons>);
+        collision.build(<rand_connect>);
+      }
+    }
+    else if(type==4)
+    {
+      while(collision)
+      {
+        maybe(.3) new_type=3;
+        otherwise maybe(.3) new_type=0;
+        otherwise maybe(.3) new_type=4;
+        otherwise continue;
+        room_floor.build(new_type);
+        
+        rand_connect.build(<room_floor>, <cons>);
+        collision.build(<rand_connect>);
+      }
+    }
+    else ;
+    <build_around> = <rand_connect>;
+    if(giveup) giveup=0; //do nothing
+    else if(new_type==0)
+    {
+       <liv_rm[liv_num]> = <build_around>;
+       liv_num=liv_num+1; 
+       type_queue[tq_num]=new_type; 
+       tq_num=tq_num+1;
+       elm_queue[eq_num]=liv_num-1;
+       eq_num=eq_num+1;
+    }
+    else if(new_type==1)
+    {
+       <din_rm[din_num]> = <build_around>;
+       din_num=din_num+1; 
+       type_queue[tq_num]=new_type; 
+       tq_num=tq_num+1;
+       elm_queue[eq_num]=din_num-1;
+       eq_num=eq_num+1;
+    }
+    else if(new_type==2)
+    {
+       <kit_rm[kit_num]> = <build_around>;
+       kit_num=kit_num+1; 
+       type_queue[tq_num]=new_type; 
+       tq_num=tq_num+1;
+       elm_queue[eq_num]=kit_num-1;
+       eq_num=eq_num+1;
+    }
+    else if(new_type==3)
+    {
+       <hall_wy[hw_num]> = <build_around>;
+       hw_num=hw_num+1; 
+       type_queue[tq_num]=new_type; 
+       tq_num=tq_num+1;
+       elm_queue[eq_num]=hw_num-1;
+       eq_num=eq_num+1;
+    }
+    else if(new_type==4)
+    {
+       <bed_rm[bed_num]> = <build_around>;
+       bed_num=bed_num+1; 
+       type_queue[tq_num]=new_type; 
+       tq_num=tq_num+1;
+       elm_queue[eq_num]=bed_num-1;
+       eq_num=eq_num+1;
+    }
+    else ;
+  } [<build_around>]
+  
+  //Main generation loop goes here.

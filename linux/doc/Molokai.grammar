@@ -1,0 +1,125 @@
+program : objects
+
+objects : object
+        | objects object
+
+object : type proc_head params_head objects '}' formula
+       | statement 
+
+proc_head : ID '('
+
+params_head : param_list ')' '{'
+
+formula : '[' csg_expression ']'
+        | '[' expression ']'
+
+statement : csg_expression ';'
+          | expression ';'
+          | declaration ';'
+          | ';'
+          | scope
+          | maybe 
+          | if_stm
+          | while_stm
+
+param_list : param
+           | param ',' param_list
+           |
+
+csg_expression : '<' item '>'
+               | csg_expression '-' csg_expression
+               | csg_expression '+' csg_expression
+               | csg_expression '*' csg_expression
+               | '<' item '>' '=' csg_expression
+               | '(' csg_expression ')'
+               | action
+
+expression : NUMBER
+           | COUNT
+           | item
+           | item '=' expression
+           | item '.' property
+           | item '.' property '=' expression
+           | item '.' COLLIDE '(' item ')'
+           | expression '<' expression
+           | expression '>' expression
+           | expression LTE expression
+           | expression GTE expression
+           | expression EQ expression
+           | expression NE expression
+           | expression LAND expression
+           | expression LOR expression
+           | expression UPTO expression
+           | expression '-' expression
+           | expression '+' expression
+           | expression '*' expression
+           | expression '/' expression
+           | '(' expression ')'
+           | '!' expression 
+
+declaration : type item
+            | LOAD ID  
+
+action : item '.' PRINT
+       | item '.' PRINTMAP
+       | item '.' BUILD '(' value_list ')'
+       | scale
+       | rotate
+       | move
+
+scope : scope_head objects '}'
+
+maybe : maybe_head cf_tail OTHERWISE statement
+
+if_stm : if_head cf_tail ELSE statement
+
+while_stm : loop_lab while_head while_tail
+
+param : type ID
+
+item : ID
+     | ID '[' expression ']'
+
+property : X
+         | Y
+         | Z
+         | W
+         | L
+         | H
+
+type : NUM_TYPE
+     | COUNT_TYPE
+     | CONSTRUCT_TYPE
+     | item
+
+value_list : value
+           | value_list ',' value
+           |
+
+scale : item '.' SCALE '.' axis '(' expression ')'
+        item '.' SCALE '(' expression ',' expression ',' expression ')'
+
+rotate : item '.' ROTATE '.' axis '(' expression ')'
+         item '.' ROTATE '(' expression ',' expression ',' expression ')'
+        
+move : item '.' MOVE '.' axis '(' expression ')'
+       item '.' MOVE '(' expression ',' expression ',' expression ')'
+
+scope_head : '{'
+
+maybe_head : MAYBE '(' expression
+
+cf_tail : ')' statement
+
+if_head : IF '(' expression
+
+loop_lab : 
+
+while_head : WHILE '(' expression
+
+value : expression
+      | csg_expression
+
+axis : X
+     | Y
+     | Z

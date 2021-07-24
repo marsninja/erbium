@@ -1,0 +1,51 @@
+counter a;
+counter b;
+counter c;
+
+a=0; b=0; c=0;
+
+while(a<100)
+{
+  b=0;
+  while(b<100)
+  {
+    b.print;
+    b=b+1;
+  }
+  a=a+1;
+  a.print;
+}
+
+load cube; 
+
+construct cn;
+construct null_construct;
+//<cn> = <cube>;
+if(<cn> == <null_construct>){cn.printmap;}
+else ;
+
+
+counter func()
+{
+  a=56;
+} [0]
+
+b=0;
+while(b<1000)
+{
+  func.build();
+  b=b+1;
+}
+
+a.print;
+
+counter t1(counter a, counter b)
+{
+  a=a+20;
+  b=b+30;
+  a.print;
+  b.print;
+} [b]
+
+t1.build(30, 20);
+

@@ -1,0 +1,22 @@
+echo "Making.."
+cd src
+cd k-lib
+cd src
+make -j 2 $1
+cd ..
+cd ..
+cd erb_csg
+make -j 2 $1
+cd ..
+cd erb_machine
+make -j 2 $1
+cd ..
+cd erb_assembler
+make -j 2 $1
+cd ..
+cd erb_molokai
+make -j 2 $1
+cd ..
+cd ..
+echo "Done!"
+

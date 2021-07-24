@@ -1,0 +1,1011 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC5DDDD214BFA77600CBFD18 /* Test.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BC5DDDD114BFA77600CBFD18 /* Test.1 */; };
+		BC5DDDDE14BFA78C00CBFD18 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC5DDDDD14BFA78C00CBFD18 /* main.cpp */; };
+		BC5DDDE514BFA7B200CBFD18 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC5DDDE414BFA7B200CBFD18 /* test.cpp */; };
+		BC5DDDF714BFB14F00CBFD18 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA97A9C14BFA55C00E173F1 /* GLUT.framework */; };
+		BC5DDDF814BFB14F00CBFD18 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA97A9E14BFA56100E173F1 /* OpenGL.framework */; };
+		BC5DDDF914BFB15D00CBFD18 /* libErbEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */; };
+		BC5DDDFA14BFB15D00CBFD18 /* libErbVM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3ED14BF9AA900705175 /* libErbVM.a */; };
+		BC5DDDFB14BFB15D00CBFD18 /* libUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A42D14BF9E3A00705175 /* libUtils.a */; };
+		BC5DDDFC14BFC78900CBFD18 /* libUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A42D14BF9E3A00705175 /* libUtils.a */; };
+		BC5DDE0114BFCA7B00CBFD18 /* libErbEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */; };
+		BC5DDE0214BFCA7B00CBFD18 /* libErbVM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3ED14BF9AA900705175 /* libErbVM.a */; };
+		BC6B560514BFA30500230C38 /* libErbEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */; };
+		BC6B560614BFA30500230C38 /* libErbVM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3ED14BF9AA900705175 /* libErbVM.a */; };
+		BC6B560714BFA30500230C38 /* libUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A42D14BF9E3A00705175 /* libUtils.a */; };
+		BC6B560814BFA30F00230C38 /* libUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A42D14BF9E3A00705175 /* libUtils.a */; };
+		BC6B560914BFA31C00230C38 /* libErbEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */; };
+		BC6B560A14BFA31C00230C38 /* libErbVM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3ED14BF9AA900705175 /* libErbVM.a */; };
+		BC6B560B14BFA31C00230C38 /* libUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A42D14BF9E3A00705175 /* libUtils.a */; };
+		BC78C54F14C20DD100B7891F /* libErbEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */; };
+		BC78C55014C20DD100B7891F /* libErbVM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3ED14BF9AA900705175 /* libErbVM.a */; };
+		BC78C55114C20DD100B7891F /* libUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A42D14BF9E3A00705175 /* libUtils.a */; };
+		BC78C55714C20F4700B7891F /* libErbMol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78C54A14C20DC200B7891F /* libErbMol.a */; };
+		BCA97A9A14BFA4AD00E173F1 /* libErbVM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3ED14BF9AA900705175 /* libErbVM.a */; };
+		BCA97A9B14BFA52000E173F1 /* libErbEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */; };
+		BCA97A9D14BFA55C00E173F1 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA97A9C14BFA55C00E173F1 /* GLUT.framework */; };
+		BCA97A9F14BFA56100E173F1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA97A9E14BFA56100E173F1 /* OpenGL.framework */; };
+		BCB5A3D514BF971800705175 /* Erbium.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCB5A3D414BF971800705175 /* Erbium.1 */; };
+		BCB5A3FB14BF9AC300705175 /* ErbAsm.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCB5A3FA14BF9AC300705175 /* ErbAsm.1 */; };
+		BCB5A40914BF9B3300705175 /* ErbRun.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCB5A40814BF9B3300705175 /* ErbRun.1 */; };
+		BCB5A41914BF9D6100705175 /* erb-asm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A41714BF9D6100705175 /* erb-asm.cpp */; };
+		BCB5A41E14BF9DBF00705175 /* erb_engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A41A14BF9DBF00705175 /* erb_engine.cpp */; };
+		BCB5A41F14BF9DBF00705175 /* erb_engine.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB5A41B14BF9DBF00705175 /* erb_engine.h */; };
+		BCB5A42014BF9DBF00705175 /* erb_math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A41C14BF9DBF00705175 /* erb_math.cpp */; };
+		BCB5A42114BF9DBF00705175 /* erb_math.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB5A41D14BF9DBF00705175 /* erb_math.h */; };
+		BCB5A42614BF9DDE00705175 /* erb_game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A42214BF9DDE00705175 /* erb_game.cpp */; };
+		BCB5A42714BF9DDE00705175 /* erb-play.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A42414BF9DDE00705175 /* erb-play.cpp */; };
+		BCB5A44214BF9E9500705175 /* erb_machine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A43F14BF9E9500705175 /* erb_machine.cpp */; };
+		BCB5A44314BF9E9500705175 /* erb_machine.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB5A44014BF9E9500705175 /* erb_machine.h */; };
+		BCB5A44414BF9E9500705175 /* erb_proc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A44114BF9E9500705175 /* erb_proc.cpp */; };
+		BCB5A44914BF9EDA00705175 /* k-utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A44514BF9EDA00705175 /* k-utils.cpp */; };
+		BCB5A44A14BF9EDA00705175 /* k-utils.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB5A44614BF9EDA00705175 /* k-utils.h */; };
+		BCB5A44B14BF9EDA00705175 /* scanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCB5A44714BF9EDA00705175 /* scanner.cpp */; };
+		BCB5A44C14BF9EDA00705175 /* scanner.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB5A44814BF9EDA00705175 /* scanner.h */; };
+		BCCBEC5314C293E30061C7B4 /* erb_assembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC5114C293E30061C7B4 /* erb_assembler.cpp */; };
+		BCCBEC5414C293E30061C7B4 /* erb_assembler.h in Headers */ = {isa = PBXBuildFile; fileRef = BCCBEC5214C293E30061C7B4 /* erb_assembler.h */; };
+		BCCBEC5A14C294AD0061C7B4 /* code_gen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC5514C294AD0061C7B4 /* code_gen.cpp */; };
+		BCCBEC5B14C294AD0061C7B4 /* molokai.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC5614C294AD0061C7B4 /* molokai.cpp */; };
+		BCCBEC5C14C294AD0061C7B4 /* molokai.h in Headers */ = {isa = PBXBuildFile; fileRef = BCCBEC5714C294AD0061C7B4 /* molokai.h */; };
+		BCCBEC5D14C294AD0061C7B4 /* molokai.lpp in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC5814C294AD0061C7B4 /* molokai.lpp */; };
+		BCCBEC5E14C294AD0061C7B4 /* molokai.ypp in Sources */ = {isa = PBXBuildFile; fileRef = BCCBEC5914C294AD0061C7B4 /* molokai.ypp */; };
+		BCCCB17F14C13117000BD0E5 /* erb-vm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCCCB17E14C13117000BD0E5 /* erb-vm.cpp */; };
+		BCCEA93B14C20F7200A6C9A1 /* libErbMol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC78C54A14C20DC200B7891F /* libErbMol.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC5DDDC314BFA59D00CBFD18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB5A3C514BF971800705175 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCB5A3F414BF9AC300705175;
+			remoteInfo = ErbAsm;
+		};
+		BC5DDDC514BFA59D00CBFD18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BCB5A3C514BF971800705175 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCB5A40214BF9B3300705175;
+			remoteInfo = ErbRun;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BC5DDDCA14BFA77600CBFD18 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				BC5DDDD214BFA77600CBFD18 /* Test.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		BC5DDDD814BFA78C00CBFD18 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		BCB5A3CC14BF971800705175 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				BCB5A3D514BF971800705175 /* Erbium.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		BCB5A3F314BF9AC300705175 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				BCB5A3FB14BF9AC300705175 /* ErbAsm.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		BCB5A40114BF9B3300705175 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				BCB5A40914BF9B3300705175 /* ErbRun.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BC5DDDCC14BFA77600CBFD18 /* Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Test; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC5DDDD114BFA77600CBFD18 /* Test.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Test.1; sourceTree = "<group>"; };
+		BC5DDDDA14BFA78C00CBFD18 /* Molokai */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Molokai; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC5DDDDD14BFA78C00CBFD18 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		BC5DDDE414BFA7B200CBFD18 /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
+		BC78C54A14C20DC200B7891F /* libErbMol.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libErbMol.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA97A9C14BFA55C00E173F1 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		BCA97A9E14BFA56100E173F1 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		BCB5A3CE14BF971800705175 /* Erbium */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Erbium; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB5A3D414BF971800705175 /* Erbium.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Erbium.1; sourceTree = "<group>"; };
+		BCB5A3E514BF9A8D00705175 /* libErbEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libErbEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB5A3ED14BF9AA900705175 /* libErbVM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libErbVM.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB5A3F514BF9AC300705175 /* ErbAsm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ErbAsm; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB5A3FA14BF9AC300705175 /* ErbAsm.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ErbAsm.1; sourceTree = "<group>"; };
+		BCB5A40314BF9B3300705175 /* ErbRun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ErbRun; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB5A40814BF9B3300705175 /* ErbRun.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ErbRun.1; sourceTree = "<group>"; };
+		BCB5A41714BF9D6100705175 /* erb-asm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "erb-asm.cpp"; sourceTree = "<group>"; };
+		BCB5A41A14BF9DBF00705175 /* erb_engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = erb_engine.cpp; sourceTree = "<group>"; };
+		BCB5A41B14BF9DBF00705175 /* erb_engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = erb_engine.h; sourceTree = "<group>"; };
+		BCB5A41C14BF9DBF00705175 /* erb_math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = erb_math.cpp; sourceTree = "<group>"; };
+		BCB5A41D14BF9DBF00705175 /* erb_math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = erb_math.h; sourceTree = "<group>"; };
+		BCB5A42214BF9DDE00705175 /* erb_game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = erb_game.cpp; sourceTree = "<group>"; };
+		BCB5A42314BF9DDE00705175 /* erb_game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = erb_game.h; sourceTree = "<group>"; };
+		BCB5A42414BF9DDE00705175 /* erb-play.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "erb-play.cpp"; sourceTree = "<group>"; };
+		BCB5A42D14BF9E3A00705175 /* libUtils.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUtils.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCB5A43F14BF9E9500705175 /* erb_machine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = erb_machine.cpp; sourceTree = "<group>"; };
+		BCB5A44014BF9E9500705175 /* erb_machine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = erb_machine.h; sourceTree = "<group>"; };
+		BCB5A44114BF9E9500705175 /* erb_proc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = erb_proc.cpp; sourceTree = "<group>"; };
+		BCB5A44514BF9EDA00705175 /* k-utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "k-utils.cpp"; sourceTree = "<group>"; };
+		BCB5A44614BF9EDA00705175 /* k-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "k-utils.h"; sourceTree = "<group>"; };
+		BCB5A44714BF9EDA00705175 /* scanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scanner.cpp; sourceTree = "<group>"; };
+		BCB5A44814BF9EDA00705175 /* scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scanner.h; sourceTree = "<group>"; };
+		BCCBEC4F14C2857A0061C7B4 /* world.mol */ = {isa = PBXFileReference; lastKnownFileType = text; name = world.mol; path = Data/world.mol; sourceTree = "<group>"; };
+		BCCBEC5114C293E30061C7B4 /* erb_assembler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = erb_assembler.cpp; sourceTree = "<group>"; };
+		BCCBEC5214C293E30061C7B4 /* erb_assembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = erb_assembler.h; sourceTree = "<group>"; };
+		BCCBEC5514C294AD0061C7B4 /* code_gen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = code_gen.cpp; path = ErbMol/code_gen.cpp; sourceTree = "<group>"; };
+		BCCBEC5614C294AD0061C7B4 /* molokai.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = molokai.cpp; path = ErbMol/molokai.cpp; sourceTree = "<group>"; };
+		BCCBEC5714C294AD0061C7B4 /* molokai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = molokai.h; path = ErbMol/molokai.h; sourceTree = "<group>"; };
+		BCCBEC5814C294AD0061C7B4 /* molokai.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = molokai.lpp; path = ErbMol/molokai.lpp; sourceTree = "<group>"; };
+		BCCBEC5914C294AD0061C7B4 /* molokai.ypp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = molokai.ypp; path = ErbMol/molokai.ypp; sourceTree = "<group>"; };
+		BCCCB17E14C13117000BD0E5 /* erb-vm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "erb-vm.cpp"; sourceTree = "<group>"; };
+		BCCCB18214C136E1000BD0E5 /* builders.prim */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = builders.prim; path = Data/builders.prim; sourceTree = "<group>"; };
+		BCCCB18314C136FE000BD0E5 /* eh.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = eh.map; path = Data/eh.map; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC5DDDC914BFA77600CBFD18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC5DDDF914BFB15D00CBFD18 /* libErbEngine.a in Frameworks */,
+				BC5DDDFA14BFB15D00CBFD18 /* libErbVM.a in Frameworks */,
+				BC5DDDFB14BFB15D00CBFD18 /* libUtils.a in Frameworks */,
+				BC5DDDF714BFB14F00CBFD18 /* GLUT.framework in Frameworks */,
+				BC5DDDF814BFB14F00CBFD18 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC5DDDD714BFA78C00CBFD18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC78C55714C20F4700B7891F /* libErbMol.a in Frameworks */,
+				BC5DDE0114BFCA7B00CBFD18 /* libErbEngine.a in Frameworks */,
+				BC5DDE0214BFCA7B00CBFD18 /* libErbVM.a in Frameworks */,
+				BC5DDDFC14BFC78900CBFD18 /* libUtils.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC78C54714C20DC200B7891F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC78C54F14C20DD100B7891F /* libErbEngine.a in Frameworks */,
+				BC78C55014C20DD100B7891F /* libErbVM.a in Frameworks */,
+				BC78C55114C20DD100B7891F /* libUtils.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3CB14BF971800705175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCEA93B14C20F7200A6C9A1 /* libErbMol.a in Frameworks */,
+				BCA97A9F14BFA56100E173F1 /* OpenGL.framework in Frameworks */,
+				BCA97A9D14BFA55C00E173F1 /* GLUT.framework in Frameworks */,
+				BC6B560514BFA30500230C38 /* libErbEngine.a in Frameworks */,
+				BC6B560614BFA30500230C38 /* libErbVM.a in Frameworks */,
+				BC6B560714BFA30500230C38 /* libUtils.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3E214BF9A8D00705175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3EA14BF9AA900705175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3F214BF9AC300705175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA97A9B14BFA52000E173F1 /* libErbEngine.a in Frameworks */,
+				BCA97A9A14BFA4AD00E173F1 /* libErbVM.a in Frameworks */,
+				BC6B560814BFA30F00230C38 /* libUtils.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A40014BF9B3300705175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC6B560914BFA31C00230C38 /* libErbEngine.a in Frameworks */,
+				BC6B560A14BFA31C00230C38 /* libErbVM.a in Frameworks */,
+				BC6B560B14BFA31C00230C38 /* libUtils.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A42A14BF9E3A00705175 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BC5DDDCE14BFA77600CBFD18 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				BC5DDDE414BFA7B200CBFD18 /* test.cpp */,
+				BC5DDDD114BFA77600CBFD18 /* Test.1 */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		BC5DDDDC14BFA78C00CBFD18 /* Molokai */ = {
+			isa = PBXGroup;
+			children = (
+				BC5DDDDD14BFA78C00CBFD18 /* main.cpp */,
+			);
+			path = Molokai;
+			sourceTree = "<group>";
+		};
+		BC78C55214C20E2F00B7891F /* ErbMol */ = {
+			isa = PBXGroup;
+			children = (
+				BCCBEC5514C294AD0061C7B4 /* code_gen.cpp */,
+				BCCBEC5614C294AD0061C7B4 /* molokai.cpp */,
+				BCCBEC5714C294AD0061C7B4 /* molokai.h */,
+				BCCBEC5814C294AD0061C7B4 /* molokai.lpp */,
+				BCCBEC5914C294AD0061C7B4 /* molokai.ypp */,
+			);
+			name = ErbMol;
+			sourceTree = "<group>";
+		};
+		BCB5A3C314BF971800705175 = {
+			isa = PBXGroup;
+			children = (
+				BCA97A9E14BFA56100E173F1 /* OpenGL.framework */,
+				BCA97A9C14BFA55C00E173F1 /* GLUT.framework */,
+				BCB5A3D114BF971800705175 /* Erbium */,
+				BCB5A3DD14BF981B00705175 /* ErbVM */,
+				BCB5A40514BF9B3300705175 /* ErbRun */,
+				BCB5A3F714BF9AC300705175 /* ErbAsm */,
+				BCB5A3DC14BF978400705175 /* ErbEngine */,
+				BC78C55214C20E2F00B7891F /* ErbMol */,
+				BC5DDDDC14BFA78C00CBFD18 /* Molokai */,
+				BC5DDDCE14BFA77600CBFD18 /* Test */,
+				BCB5A3DF14BF989A00705175 /* Utils */,
+				BCCCB18114C1365A000BD0E5 /* Data */,
+				BCB5A3CF14BF971800705175 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BCB5A3CF14BF971800705175 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BCB5A3CE14BF971800705175 /* Erbium */,
+				BCB5A3E514BF9A8D00705175 /* libErbEngine.a */,
+				BCB5A3ED14BF9AA900705175 /* libErbVM.a */,
+				BCB5A3F514BF9AC300705175 /* ErbAsm */,
+				BCB5A40314BF9B3300705175 /* ErbRun */,
+				BCB5A42D14BF9E3A00705175 /* libUtils.a */,
+				BC5DDDCC14BFA77600CBFD18 /* Test */,
+				BC5DDDDA14BFA78C00CBFD18 /* Molokai */,
+				BC78C54A14C20DC200B7891F /* libErbMol.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BCB5A3D114BF971800705175 /* Erbium */ = {
+			isa = PBXGroup;
+			children = (
+				BCB5A42214BF9DDE00705175 /* erb_game.cpp */,
+				BCB5A42314BF9DDE00705175 /* erb_game.h */,
+				BCB5A42414BF9DDE00705175 /* erb-play.cpp */,
+				BCB5A3D414BF971800705175 /* Erbium.1 */,
+			);
+			path = Erbium;
+			sourceTree = "<group>";
+		};
+		BCB5A3DC14BF978400705175 /* ErbEngine */ = {
+			isa = PBXGroup;
+			children = (
+				BCB5A41A14BF9DBF00705175 /* erb_engine.cpp */,
+				BCB5A41B14BF9DBF00705175 /* erb_engine.h */,
+				BCB5A41C14BF9DBF00705175 /* erb_math.cpp */,
+				BCB5A41D14BF9DBF00705175 /* erb_math.h */,
+			);
+			path = ErbEngine;
+			sourceTree = "<group>";
+		};
+		BCB5A3DD14BF981B00705175 /* ErbVM */ = {
+			isa = PBXGroup;
+			children = (
+				BCCBEC5114C293E30061C7B4 /* erb_assembler.cpp */,
+				BCCBEC5214C293E30061C7B4 /* erb_assembler.h */,
+				BCB5A43F14BF9E9500705175 /* erb_machine.cpp */,
+				BCB5A44014BF9E9500705175 /* erb_machine.h */,
+				BCB5A44114BF9E9500705175 /* erb_proc.cpp */,
+			);
+			path = ErbVM;
+			sourceTree = "<group>";
+		};
+		BCB5A3DF14BF989A00705175 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BCB5A44514BF9EDA00705175 /* k-utils.cpp */,
+				BCB5A44614BF9EDA00705175 /* k-utils.h */,
+				BCB5A44714BF9EDA00705175 /* scanner.cpp */,
+				BCB5A44814BF9EDA00705175 /* scanner.h */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		BCB5A3F714BF9AC300705175 /* ErbAsm */ = {
+			isa = PBXGroup;
+			children = (
+				BCB5A41714BF9D6100705175 /* erb-asm.cpp */,
+				BCB5A3FA14BF9AC300705175 /* ErbAsm.1 */,
+			);
+			path = ErbAsm;
+			sourceTree = "<group>";
+		};
+		BCB5A40514BF9B3300705175 /* ErbRun */ = {
+			isa = PBXGroup;
+			children = (
+				BCCCB17E14C13117000BD0E5 /* erb-vm.cpp */,
+				BCB5A40814BF9B3300705175 /* ErbRun.1 */,
+			);
+			path = ErbRun;
+			sourceTree = "<group>";
+		};
+		BCCCB18114C1365A000BD0E5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BCCBEC4F14C2857A0061C7B4 /* world.mol */,
+				BCCCB18314C136FE000BD0E5 /* eh.map */,
+				BCCCB18214C136E1000BD0E5 /* builders.prim */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BC78C54814C20DC200B7891F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCBEC5C14C294AD0061C7B4 /* molokai.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3E314BF9A8D00705175 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A41F14BF9DBF00705175 /* erb_engine.h in Headers */,
+				BCB5A42114BF9DBF00705175 /* erb_math.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3EB14BF9AA900705175 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A44314BF9E9500705175 /* erb_machine.h in Headers */,
+				BCCBEC5414C293E30061C7B4 /* erb_assembler.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A42B14BF9E3A00705175 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A44A14BF9EDA00705175 /* k-utils.h in Headers */,
+				BCB5A44C14BF9EDA00705175 /* scanner.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BC5DDDCB14BFA77600CBFD18 /* Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC5DDDD314BFA77600CBFD18 /* Build configuration list for PBXNativeTarget "Test" */;
+			buildPhases = (
+				BC5DDDC814BFA77600CBFD18 /* Sources */,
+				BC5DDDC914BFA77600CBFD18 /* Frameworks */,
+				BC5DDDCA14BFA77600CBFD18 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Test;
+			productName = Test;
+			productReference = BC5DDDCC14BFA77600CBFD18 /* Test */;
+			productType = "com.apple.product-type.tool";
+		};
+		BC5DDDD914BFA78C00CBFD18 /* Molokai */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC5DDDE114BFA78C00CBFD18 /* Build configuration list for PBXNativeTarget "Molokai" */;
+			buildPhases = (
+				BC5DDDD614BFA78C00CBFD18 /* Sources */,
+				BC5DDDD714BFA78C00CBFD18 /* Frameworks */,
+				BC5DDDD814BFA78C00CBFD18 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Molokai;
+			productName = Molokai;
+			productReference = BC5DDDDA14BFA78C00CBFD18 /* Molokai */;
+			productType = "com.apple.product-type.tool";
+		};
+		BC78C54914C20DC200B7891F /* ErbMol */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC78C54D14C20DC200B7891F /* Build configuration list for PBXNativeTarget "ErbMol" */;
+			buildPhases = (
+				BC78C54614C20DC200B7891F /* Sources */,
+				BC78C54714C20DC200B7891F /* Frameworks */,
+				BC78C54814C20DC200B7891F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ErbMol;
+			productName = ErbMol;
+			productReference = BC78C54A14C20DC200B7891F /* libErbMol.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BCB5A3CD14BF971800705175 /* Erbium */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB5A3D814BF971800705175 /* Build configuration list for PBXNativeTarget "Erbium" */;
+			buildPhases = (
+				BCB5A3CA14BF971800705175 /* Sources */,
+				BCB5A3CB14BF971800705175 /* Frameworks */,
+				BCB5A3CC14BF971800705175 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BC5DDDC414BFA59D00CBFD18 /* PBXTargetDependency */,
+				BC5DDDC614BFA59D00CBFD18 /* PBXTargetDependency */,
+			);
+			name = Erbium;
+			productName = Erbium;
+			productReference = BCB5A3CE14BF971800705175 /* Erbium */;
+			productType = "com.apple.product-type.tool";
+		};
+		BCB5A3E414BF9A8D00705175 /* ErbEngine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB5A3E614BF9A8D00705175 /* Build configuration list for PBXNativeTarget "ErbEngine" */;
+			buildPhases = (
+				BCB5A3E114BF9A8D00705175 /* Sources */,
+				BCB5A3E214BF9A8D00705175 /* Frameworks */,
+				BCB5A3E314BF9A8D00705175 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ErbEngine;
+			productName = ErbEngine;
+			productReference = BCB5A3E514BF9A8D00705175 /* libErbEngine.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BCB5A3EC14BF9AA900705175 /* ErbVM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB5A3EE14BF9AA900705175 /* Build configuration list for PBXNativeTarget "ErbVM" */;
+			buildPhases = (
+				BCB5A3E914BF9AA900705175 /* Sources */,
+				BCB5A3EA14BF9AA900705175 /* Frameworks */,
+				BCB5A3EB14BF9AA900705175 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ErbVM;
+			productName = ErbVM;
+			productReference = BCB5A3ED14BF9AA900705175 /* libErbVM.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		BCB5A3F414BF9AC300705175 /* ErbAsm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB5A3FC14BF9AC300705175 /* Build configuration list for PBXNativeTarget "ErbAsm" */;
+			buildPhases = (
+				BCB5A3F114BF9AC300705175 /* Sources */,
+				BCB5A3F214BF9AC300705175 /* Frameworks */,
+				BCB5A3F314BF9AC300705175 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ErbAsm;
+			productName = ErbAsm;
+			productReference = BCB5A3F514BF9AC300705175 /* ErbAsm */;
+			productType = "com.apple.product-type.tool";
+		};
+		BCB5A40214BF9B3300705175 /* ErbRun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB5A40A14BF9B3300705175 /* Build configuration list for PBXNativeTarget "ErbRun" */;
+			buildPhases = (
+				BCB5A3FF14BF9B3300705175 /* Sources */,
+				BCB5A40014BF9B3300705175 /* Frameworks */,
+				BCB5A40114BF9B3300705175 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ErbRun;
+			productName = ErbRun;
+			productReference = BCB5A40314BF9B3300705175 /* ErbRun */;
+			productType = "com.apple.product-type.tool";
+		};
+		BCB5A42C14BF9E3A00705175 /* Utils */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCB5A42E14BF9E3A00705175 /* Build configuration list for PBXNativeTarget "Utils" */;
+			buildPhases = (
+				BCB5A42914BF9E3A00705175 /* Sources */,
+				BCB5A42A14BF9E3A00705175 /* Frameworks */,
+				BCB5A42B14BF9E3A00705175 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Utils;
+			productName = Utils;
+			productReference = BCB5A42D14BF9E3A00705175 /* libUtils.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BCB5A3C514BF971800705175 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "University of Virginia";
+			};
+			buildConfigurationList = BCB5A3C814BF971800705175 /* Build configuration list for PBXProject "Erbium" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BCB5A3C314BF971800705175;
+			productRefGroup = BCB5A3CF14BF971800705175 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BC5DDDCB14BFA77600CBFD18 /* Test */,
+				BCB5A3CD14BF971800705175 /* Erbium */,
+				BCB5A3F414BF9AC300705175 /* ErbAsm */,
+				BCB5A40214BF9B3300705175 /* ErbRun */,
+				BC5DDDD914BFA78C00CBFD18 /* Molokai */,
+				BCB5A3E414BF9A8D00705175 /* ErbEngine */,
+				BCB5A3EC14BF9AA900705175 /* ErbVM */,
+				BCB5A42C14BF9E3A00705175 /* Utils */,
+				BC78C54914C20DC200B7891F /* ErbMol */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC5DDDC814BFA77600CBFD18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC5DDDE514BFA7B200CBFD18 /* test.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC5DDDD614BFA78C00CBFD18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC5DDDDE14BFA78C00CBFD18 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC78C54614C20DC200B7891F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCBEC5A14C294AD0061C7B4 /* code_gen.cpp in Sources */,
+				BCCBEC5B14C294AD0061C7B4 /* molokai.cpp in Sources */,
+				BCCBEC5D14C294AD0061C7B4 /* molokai.lpp in Sources */,
+				BCCBEC5E14C294AD0061C7B4 /* molokai.ypp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3CA14BF971800705175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A42614BF9DDE00705175 /* erb_game.cpp in Sources */,
+				BCB5A42714BF9DDE00705175 /* erb-play.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3E114BF9A8D00705175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A41E14BF9DBF00705175 /* erb_engine.cpp in Sources */,
+				BCB5A42014BF9DBF00705175 /* erb_math.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3E914BF9AA900705175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A44214BF9E9500705175 /* erb_machine.cpp in Sources */,
+				BCB5A44414BF9E9500705175 /* erb_proc.cpp in Sources */,
+				BCCBEC5314C293E30061C7B4 /* erb_assembler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3F114BF9AC300705175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A41914BF9D6100705175 /* erb-asm.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A3FF14BF9B3300705175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCCCB17F14C13117000BD0E5 /* erb-vm.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCB5A42914BF9E3A00705175 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCB5A44914BF9EDA00705175 /* k-utils.cpp in Sources */,
+				BCB5A44B14BF9EDA00705175 /* scanner.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BC5DDDC414BFA59D00CBFD18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCB5A3F414BF9AC300705175 /* ErbAsm */;
+			targetProxy = BC5DDDC314BFA59D00CBFD18 /* PBXContainerItemProxy */;
+		};
+		BC5DDDC614BFA59D00CBFD18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCB5A40214BF9B3300705175 /* ErbRun */;
+			targetProxy = BC5DDDC514BFA59D00CBFD18 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		BC5DDDD414BFA77600CBFD18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BC5DDDD514BFA77600CBFD18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BC5DDDE214BFA78C00CBFD18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BC5DDDE314BFA78C00CBFD18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BC78C54B14C20DC200B7891F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BC78C54C14C20DC200B7891F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BCB5A3D614BF971800705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BCB5A3D714BF971800705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BCB5A3D914BF971800705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BCB5A3DA14BF971800705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BCB5A3E714BF9A8D00705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BCB5A3E814BF9A8D00705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BCB5A3EF14BF9AA900705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BCB5A3F014BF9AA900705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BCB5A3FD14BF9AC300705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BCB5A3FE14BF9AC300705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BCB5A40B14BF9B3300705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BCB5A40C14BF9B3300705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		BCB5A42F14BF9E3A00705175 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		BCB5A43014BF9E3A00705175 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC5DDDD314BFA77600CBFD18 /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC5DDDD414BFA77600CBFD18 /* Debug */,
+				BC5DDDD514BFA77600CBFD18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC5DDDE114BFA78C00CBFD18 /* Build configuration list for PBXNativeTarget "Molokai" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC5DDDE214BFA78C00CBFD18 /* Debug */,
+				BC5DDDE314BFA78C00CBFD18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC78C54D14C20DC200B7891F /* Build configuration list for PBXNativeTarget "ErbMol" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC78C54B14C20DC200B7891F /* Debug */,
+				BC78C54C14C20DC200B7891F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A3C814BF971800705175 /* Build configuration list for PBXProject "Erbium" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A3D614BF971800705175 /* Debug */,
+				BCB5A3D714BF971800705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A3D814BF971800705175 /* Build configuration list for PBXNativeTarget "Erbium" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A3D914BF971800705175 /* Debug */,
+				BCB5A3DA14BF971800705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A3E614BF9A8D00705175 /* Build configuration list for PBXNativeTarget "ErbEngine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A3E714BF9A8D00705175 /* Debug */,
+				BCB5A3E814BF9A8D00705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A3EE14BF9AA900705175 /* Build configuration list for PBXNativeTarget "ErbVM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A3EF14BF9AA900705175 /* Debug */,
+				BCB5A3F014BF9AA900705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A3FC14BF9AC300705175 /* Build configuration list for PBXNativeTarget "ErbAsm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A3FD14BF9AC300705175 /* Debug */,
+				BCB5A3FE14BF9AC300705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A40A14BF9B3300705175 /* Build configuration list for PBXNativeTarget "ErbRun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A40B14BF9B3300705175 /* Debug */,
+				BCB5A40C14BF9B3300705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCB5A42E14BF9E3A00705175 /* Build configuration list for PBXNativeTarget "Utils" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB5A42F14BF9E3A00705175 /* Debug */,
+				BCB5A43014BF9E3A00705175 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BCB5A3C514BF971800705175 /* Project object */;
+}

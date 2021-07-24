@@ -1,0 +1,5 @@
+../bin/molokai f*.mol > world.erb
+make
+../bin/erb-vm test.ebx > eh.map
+cat eh.map c.map > out.map
+/cygdrive/e/mine/Progs/QuArK/QuArK.exe out.map

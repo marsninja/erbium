@@ -1,0 +1,13 @@
+../bin/molokai beauty.mol > world.erb
+make
+../bin/erb-vm test.ebx > eh.map
+cat eh.map c.map > out.map
+#/cygdrive/e/mine/Progs/QuArK/QuArK.exe out.map
+cp out.map /cygdrive/e/games/quake/id1/
+cd /cygdrive/e/games/quake/id1
+./qbsp -wad QUAKETEX.WAD out.map
+./rvis out.bsp
+./arghlite out.bsp
+mv out.bsp maps
+cd ..
+./quake -width 1280 -bpp 32

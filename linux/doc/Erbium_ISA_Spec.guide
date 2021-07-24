@@ -1,0 +1,100 @@
+The Erbium ISA Specifications
+
+Info
+
+The valid values for <type> are 0 for counter types, 1 for value types and
+2 for construct types. There are 2 stacks, stacks 0 and 1, this is to assist
+the compiler, i.e. having a stack dedicated to parameters if compiler writer
+sees fit. 
+
+Quick Ref
+
+expand <type> <units>
+deflate <type> <units>
+pload <prim_id> <dest>
+spit <type> <source> #prints mem loc contents to screen
+spitmap <source> #only with constructs, prints quake map format
+  
+cuni <dest> <source1> <source2> #must act on construct type memory units
+cinter <dest> <source1> <source2>
+csub <dest> <source1> <source2>
+
+crotx <dest> <source1> <source2> #source1 must be type 2, source 2 type 1
+croty <dest> <source1> <source2>
+crotz <dest> <source1> <source2>
+cmovex <dest> <source1> <source2>
+cmovey <dest> <source1> <source2>
+cmovez <dest> <source1> <source2>
+cscalex <dest> <source1> <source2>
+cscaley <dest> <source1> <source2>
+cscalez <dest> <source1> <source2>
+
+csetx <dest> <source1> <source2> #source1 must be type 2, source 2 type 1
+csety <dest> <source1> <source2>
+csetz <dest> <source1> <source2>
+csetw <dest> <source1> <source2>
+csetl <dest> <source1> <source2>
+cseth <dest> <source1> <source2>
+
+cgetx <dest> <source> #<dest> is of type value, source is construct
+cgety <dest> <source>
+cgetz <dest> <source>
+cgetw <dest> <source>
+cgetl <dest> <source>
+cgeth <dest> <source>
+
+ccol <type> <dest> <source1> <source2> #construct collision detection
+                                       #type can be count or number, 1 or 0 put in dest
+
+alloc <type> <dest> <units_src> #dest holds index into alloc table, is type 0
+load <type> <dest> <index> <source> #index to alloc table
+store <type> <source> <index> <dest> 
+
+push <stack_num> <type> <source> //stack number can be 0 or 1
+pop <stack_num> <type> <dest> 
+
+copy <type> <dest> <source>
+cast <type> <dest> <source> //type 1 and 2 only, dest is of type, source is other
+
+seti <type> <dest> <imm> #these instructions only supports type 0, and 1
+add <type> <dest> <source1> <source2>
+addi <type> <dest> <source> <imm>
+sub <type> <dest> <source1> <source2> 
+subi <type> <dest> <source> <imm>
+mult <type> <dest> <source1> <source2>
+multi <type> <dest> <source> <imm>
+div <type> <dest> <source1> <source2> 
+divi <type> <dest> <source> <imm>
+mod <type> <dest> <source1> <source2>
+modi <type> <dest> <source> <imm>
+
+seq <type> <dest> <source1> <source2> 
+sne <type> <dest> <source1> <source2>
+slt <type> <dest> <source1> <source2> #these instructions only supports type 0, and 1
+sgt <type> <dest> <source1> <source2>
+slte <type> <dest> <source1> <source2>
+sgte <type> <dest> <source1> <source2>
+land <type> <dest> <source1> <source2> 
+lor <type> <dest> <source1> <source2>
+lnot <type> <dest> <source1>
+
+seed <value> #uses type count; seeds randomizer accordingly
+timeseed #seeds with current time
+gen <type> <dest> <min> <max> #types 0 - 1, set random number; min to max-1
+
+jump <dest>
+jchance <source> <dest> #source is of type value 
+                        #if source=.5, there is a 50% chance
+                        #of jumping to the dest
+
+
+jeq <type> <source1> <source2> <dest>
+jne <type> <source1> <source2> <dest>
+jlt <type> <source1> <source2> <dest>
+jgt <type> <source1> <source2> <dest>
+jlte <type> <source1> <source2> <dest>
+jgte <type> <source1> <source2> <dest>
+jsub <dest>
+ret
+
+end

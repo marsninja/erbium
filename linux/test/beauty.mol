@@ -1,0 +1,195 @@
+load cube;
+
+construct inside_cube;
+
+holey()
+{
+  number hi=400;
+  number low=100;
+  number thick=10->40;
+  cube main:
+  {
+    w=low->hi;
+    l=low->hi;
+    h=low->hi;
+  }
+  main cut:
+  {
+    w=w+thick;
+    l=l-thick;
+    h=h-thick;
+    y=y+thick/2;
+    z=z+thick/2;
+  }
+} [main-cut]
+
+sexy_cuby()
+{
+  number hi=400;
+  number low=100;
+  number thick=10->40;
+  cube main:
+  {
+    w=low->hi;
+    l=low->hi;
+    h=low->hi;
+  }
+  main cut1:
+  {
+    w=w+thick;
+    l=l-thick;
+    h=h-thick;
+    y=y+thick/2;
+    z=z+thick/2;
+  }
+  main cut2:
+  {
+    w=w-thick;
+    l=l+thick;
+    h=h-thick;
+    x=x+thick/2;
+    z=z+thick/2;
+  }
+  main cut3:
+  {
+    w=w-thick;
+    l=l-thick;
+    h=h+thick;
+    x=x+thick/2;
+    y=y+thick/2;
+  }
+}[main-cut1-cut2-cut3]
+
+many_blocks()
+{
+  block(number hi, number low)
+  {
+    //hi=200;
+    //low=20;
+    cube main:
+    {
+      w=low->hi;
+      l=low->hi;
+      h=low->hi;
+    }
+    main.rotate(0->360, 0->360, 0->360);
+    main.x=inside_cube.x->inside_cube.x+inside_cube.w/2;
+    main.y=inside_cube.x->inside_cube.y+inside_cube.l/2;
+    main.z=inside_cube.x->inside_cube.z+inside_cube.h/2;
+  } [main]
+  cube a; cube b; cube c; cube d; cube e;
+  block.generate(200,20):a; block.generate(200,20):b;
+  block.generate(200,20):c; block.generate(200,20):e;
+  block.generate(200,20):e;
+} [a+b+c+d+e]
+
+chair()
+{
+  cube seat:
+  {
+    w=10->50;
+    l=10->50;
+    h=4;
+  }
+  cube legsblock:
+  {
+    w=seat.w;
+    l=seat.l;
+    h=10->50;
+    x=seat.x;
+    y=seat.y;
+    z=seat.z-h;
+  }
+  cube legsub1:
+  {
+    dim=legsblock.dim;
+    pos=legsblock.pos;
+    w=4->(seat.w-4);
+    x=legsblock.x+((legsblock.w-w)/2);
+  }
+  cube legsub2:
+  {
+    dim=legsblock.dim;
+    pos=legsblock.pos;
+    l=4->(seat.l-4);
+    y=legsblock.y+((legsblock.l-l)/2);
+  }
+  cube back:
+  {
+    w=seat.w;
+    l=10; 
+    h=10->50;
+  }
+} [seat+((legsblock-legsub1)-legsub2)+back]
+
+room()
+{
+  number hi=1500;
+  number low=500;
+  number thick=10->40;
+  cube main:
+  {
+    w=low->hi;
+    l=low->hi;
+    h=low->hi;
+  }
+  main cut:
+  {
+    x=x+thick/2; w=w-thick;
+    y=y+thick/2; l=l-thick;
+    z=z+thick/2; h=h-thick;
+    inside_cube=[cut];
+  }
+  
+  construct object;
+  construct c1;
+  construct c2;
+  maybe(.3)
+  {
+    holey.generate():object;
+    object.rotate(0->360, 0->360, 0->360);
+  }
+  otherwise maybe(.3)
+  {
+    sexy_cuby.generate():object;
+    object.rotate(0->360, 0->360, 0->360);
+  }
+  otherwise 
+    many_blocks.generate():object;  
+
+  
+  object.x=cut.x->(cut.x+(cut.w-object.w));
+  object.y=cut.y->(cut.y+(cut.l-object.l));
+  object.z=cut.z->(cut.z+(cut.h-object.h));
+
+  chair.generate():c1; chair.generate():c2;
+  c1.rotate.z(0->360);
+  c2.rotate.z(0->360);
+  c1.x=cut.x->(cut.x+500);
+  c1.y=cut.y->(cut.y+500);
+  c1.z=10;
+  
+  c2.x=cut.x->(cut.x+500);
+  c2.y=cut.y->(cut.y+500);
+  c2.z=10;
+
+  
+} [(main-cut)+object+c1+c2] 
+
+extend()
+{
+  room.generate();
+  room.x=extend.x+extend.w;
+  cube cut;
+  cut.x=room.x-45; cut.y=40->500; cut.z=40;
+  cut.w=100->300; cut.l=100->300; cut.h=100->300;
+} [(extend+room)-cut]
+
+room.generate():extend;
+
+extend.generate();
+extend.generate();
+
+extend.x=0-extend.w/2;
+
+extend.printmap;

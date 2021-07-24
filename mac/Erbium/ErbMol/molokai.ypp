@@ -1,0 +1,940 @@
+%{
+#include "molokai.h"
+
+using namespace molokai;
+typedef compiler_state cs;
+
+int yyerror(char *s);
+extern int yylex();
+extern u_long yyline;
+namespace molokai {extern cs state;}
+%}
+
+%union
+{
+  char id[256];
+  u_long cnt;
+  double num;
+  u_long line;
+}
+
+%start program
+%token NUM_TYPE COUNT_TYPE CONSTRUCT_TYPE 
+%token COLLIDES PRINT PRINTMAP RENDER BUILD
+%token LOAD X Y Z W L H ROTATE MOVE SCALE
+%token IF ELSE WHILE BREAK CONTINUE MAYBE OTHERWISE 
+%token UPTO LTE GTE EQ NE LOR LAND 
+%token <cnt> COUNT <num> NUMBER <id> ID 
+
+%left '='
+%left LAND LOR
+%left '<' '>' LTE GTE EQ NE
+%left UPTO
+%left '-' '+'
+%left '*' '/'
+%left '!'
+
+%%
+
+program : objects
+          {state.code_gen(machine::end,0,0,0,0,0,0);}
+
+objects : object
+        | objects object
+
+object : type proc_head params_head objects '}' formula
+         {
+           bool needcast=false;
+           u_long last_ob;
+           if(state.last_type.top()==0) 
+           {
+             needcast=true;
+             last_ob=state.top(cs::number); 
+           }
+           else 
+             last_ob=state.top(state.last_type.top()); 
+           last_ob++; //compensate for formulas self decrement
+           state.dec_scope();
+           u_long loc=state.last_symbol().loc; //this works, trust it, see object_head
+           if(needcast) state.code_gen(machine::cast,state.last_type.top(),loc,0,0,0,0); 
+           else state.code_gen(machine::copy,state.last_type.top(),loc,0,0,0,0); 
+           //state.code_gen(machine::copydown,state.last_type.top(),loc,0,0,0,0); 
+           state.restore_context();
+           state.code_gen(machine::ret,0,0,0,0,0,0); 
+           //state.dec(state.last_type.top());
+           state.last_type.pop();
+           state.backpatch_hop_to_here(); //For procedure hop over
+         }
+       | statement 
+
+proc_head : ID '('
+            {
+              string s="\n //"; s+=$1;
+              state.src_out.add(s);
+              state.add_symbol($1, state.last_type.top(), symbol::proc);
+              state.inc_scope();
+              state.last_symbol().lab=state.backpatch_hop_from_here();
+            }
+
+params_head : param_list ')' '{'
+              {state.fix_pop_order_for_args();}
+
+formula : '[' csg_expression ']'
+          {
+            state.code_gen(machine::copy,2,0,state.top(cs::construct),0,0,0); 
+            state.dec(cs::construct);
+          }
+        | '[' expression ']'
+          {
+            state.code_gen(machine::copy,1,0,state.top(cs::number),0,0,0); 
+            state.dec(cs::number);
+          }
+
+statement : csg_expression ';'
+            {state.dec(cs::construct);}
+          | expression ';'
+            {state.dec(cs::number);}
+          | declaration ';'
+          | ';'
+          | scope
+          | maybe 
+          | if_stm
+          | while_stm
+          | BREAK ';'
+            {
+              if(state.in_loop)
+              {
+                state.code_gen(machine::jump,0,0,0,0,0,0);
+                state.break_loc.add(state.src_out.size()-1);
+                state.num_breaks.top()++;
+              }
+            }
+          | CONTINUE ';'
+            {
+              if(state.in_loop)
+                state.code_gen(machine::jump,0,0,0,0,0,0,state.loop_lab.top());
+            }
+
+param_list : param
+           | param ',' param_list
+           |
+
+csg_expression : '<' item '>'
+                 {
+                   state.inc(cs::construct); 
+                   string id=state.last_id.top();
+                   if(id[0]=='@')
+                   {
+                     id=id.substr(1,id.size());
+                     u_long loc=state.check_for(id.c_str(), 2, symbol::arr).mem_loc;
+                     state.code_gen(machine::load,2,state.top(cs::construct),
+                                    loc,state.top(cs::count),0,0);
+                     state.dec(cs::count); //free memory used
+                   }
+                   else
+                   {
+                     u_long loc=state.check_for(state.last_id.top().c_str(), 2).loc;
+                     state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+                   }                 
+                   state.last_id.pop();
+                 }
+               | csg_expression '-' csg_expression
+                 {
+                   state.code_gen(machine::csub,state.top(cs::construct)-1,
+                                  state.top(cs::construct)-1,state.top(cs::construct),
+                                  0,0,0);
+                   state.dec(cs::construct);
+                 }
+               | csg_expression '+' csg_expression
+                 {
+                   state.code_gen(machine::cuni,state.top(cs::construct)-1,
+                                  state.top(cs::construct)-1,state.top(cs::construct),
+                                  0,0,0);
+                   state.dec(cs::construct);
+                 }
+               | csg_expression '*' csg_expression
+                 {
+                   state.code_gen(machine::cinter,state.top(cs::construct)-1,
+                                  state.top(cs::construct)-1,state.top(cs::construct),
+                                  0,0,0);
+                   state.dec(cs::construct);
+                 }
+               | '<' item '>' '=' csg_expression
+                 {
+                   string id=state.last_id.top();
+                   if(id[0]=='@')
+                   {
+                     id=id.substr(1,id.size());
+                     u_long loc=state.check_for(id.c_str(), 2, symbol::arr).mem_loc;
+                     state.code_gen(machine::store,2,state.top(cs::construct),
+                                    loc,state.top(cs::count),0,0);
+                     state.dec(cs::count); //free memory used
+                   }
+                   else
+                   {
+                     u_long loc=state.check_for(state.last_id.top().c_str(), 2).loc;
+                     state.code_gen(machine::copy,2,loc,state.top(cs::construct),0,0,0);
+                   }                 
+                   state.last_id.pop();
+                 }
+               | '(' csg_expression ')'
+               | action
+
+expression : NUMBER
+             {
+               state.inc(cs::number); 
+               state.code_gen(machine::seti,1,state.top(cs::number),0,0,0,$1);
+             }
+           | COUNT
+             {
+               state.inc(cs::number); 
+               state.code_gen(machine::seti,1,state.top(cs::number),0,0,0,$1);
+             }
+           | item
+             {
+               state.inc(cs::number); 
+               string id=state.last_id.top();
+               if(id[0]=='@')
+               {
+                 id=id.substr(1,id.size());
+                 symbol sym=state.check_for(id.c_str(), 5, symbol::arr);
+                 if(sym.type==0)
+                 {
+                   state.inc(cs::count);
+                   state.code_gen(machine::load,0,state.top(cs::count),
+                                  sym.mem_loc,state.top(cs::count)-1,0,0);
+                   state.code_gen(machine::cast,1,state.top(cs::number),
+                                  state.top(cs::count),0,0,0);
+                   state.dec(cs::count);
+                 }
+                 else if(sym.type==1)
+                   state.code_gen(machine::load,1,state.top(cs::number),
+                                  sym.mem_loc,state.top(cs::count),0,0);
+                 state.dec(cs::count); //free memory used
+               }
+               else
+               {
+                 symbol sym=state.check_for(state.last_id.top().c_str());
+                 if(sym.type==0)
+                   state.code_gen(machine::cast,1,state.top(cs::number),sym.loc,0,0,0);
+                 else if(sym.type==1)
+                   state.code_gen(machine::copy,1,state.top(cs::number),sym.loc,0,0,0);
+               }                 
+               state.last_id.pop();
+             }
+           | item '=' expression
+             {
+               string id=state.last_id.top();
+               if(id[0]=='@')
+               {
+                 id=id.substr(1,id.size());
+                 symbol sym=state.check_for(id.c_str(), 6, symbol::arr);
+                 if(sym.type==0)
+                 {
+                   state.inc(cs::count);4
+                   state.code_gen(machine::cast,0,state.top(cs::count),
+                                  state.top(cs::number),0,0,0);
+                   state.code_gen(machine::store,0,state.top(cs::count),
+                                  sym.mem_loc,state.top(cs::count)-1,0,0);
+                   state.dec(cs::count);
+                 }
+                 if(sym.type==1)
+                   state.code_gen(machine::store,1,state.top(cs::number),
+                                  sym.mem_loc,state.top(cs::count),0,0);
+                 state.dec(cs::count); //free memory used
+               }
+               else
+               {
+                 symbol sym=state.check_for(state.last_id.top().c_str(), 6);
+                 if(sym.type==0)
+                   state.code_gen(machine::cast,0,sym.loc,state.top(cs::number),0,0,0);
+                 if(sym.type==1)
+                   state.code_gen(machine::copy,1,sym.loc,state.top(cs::number),0,0,0);
+               }                 
+               state.last_id.pop();
+             }
+           | item '.' property
+             {
+               state.inc(cs::number); 
+               string id=state.last_id.top();
+               if(id[0]=='@')
+               {
+                 state.inc(cs::construct);
+                 id=id.substr(1,id.size());
+                 u_long loc=state.check_for(id.c_str(), 2, symbol::arr).mem_loc;
+                 state.code_gen(machine::load,2,state.top(cs::construct),
+                                loc,state.top(cs::count),0,0);
+                 state.dec(cs::count); //free memory used
+                 erb_op op=state.prop_inst_stack.top();
+                 state.code_gen(op, state.top(cs::number), state.top(cs::construct),0,0,0,0);
+                 state.prop_inst_stack.pop();
+                 state.dec(cs::construct);
+               }
+               else
+               {
+                 u_long loc=state.check_for(state.last_id.top().c_str(), 2).loc;
+                 state.code_gen(machine::copy,1,state.top(cs::number),loc,0,0,0);
+                 erb_op op=state.prop_inst_stack.top();
+                 state.code_gen(op, state.top(cs::number), loc,0,0,0,0);
+                 state.prop_inst_stack.pop();
+               }                 
+               state.last_id.pop();
+             }
+           | item '.' property '=' expression
+             {
+               string id=state.last_id.top();
+               if(id[0]=='@')
+               {
+                 state.inc(cs::construct);
+                 id=id.substr(1,id.size());
+                 u_long loc=state.check_for(id.c_str(), 2, symbol::arr).mem_loc;
+                 state.code_gen(machine::load,2,state.top(cs::construct),
+                                loc,state.top(cs::count),0,0);
+                 state.prop_assign_gen(state.top(cs::construct));  
+                 state.code_gen(machine::store,2,state.top(cs::construct),
+                                loc,state.top(cs::count),0,0);
+                 state.dec(cs::count); //free memory used
+                 state.dec(cs::construct);
+               }
+               else
+               {
+                 u_long loc=state.check_for(state.last_id.top().c_str(), 2).loc;
+                 state.prop_assign_gen(loc);
+               }                 
+               state.last_id.pop();
+             }
+           | item  COLLIDES  item 
+             {
+               state.inc(cs::construct);
+               state.inc(cs::construct);
+               u_long loc1, loc2;
+               string id1=state.last_id.top();
+               state.last_id.pop();
+               string id2=state.last_id.top();
+               if(id1[0]=='@')
+               {
+                 id1=id1.substr(1,id1.size());
+                 loc1=state.check_for(id1.c_str(),2).mem_loc;
+                 state.code_gen(machine::load,2,state.top(cs::construct)-1,
+                                loc1,state.top(cs::count),0,0);
+                 state.dec(cs::count);
+                 loc1=state.top(cs::construct)-1;
+               }
+               else
+               {
+                 loc1=state.check_for(id1.c_str(),2).loc;
+               }
+               if(id2[0]=='@')
+               {
+                 id2=id2.substr(1,id2.size());
+                 loc2=state.check_for(id2.c_str(),2).mem_loc;
+                 state.code_gen(machine::load,2,state.top(cs::construct),
+                                loc2,state.top(cs::count),0,0);
+                 state.dec(cs::count);
+                 loc2=state.top(cs::construct);
+               }
+               else
+               {
+                 loc2=state.check_for(id2.c_str(),2).loc;
+               }
+               state.inc(cs::number); 
+               state.code_gen(machine::ccol,1,state.top(cs::number),loc1,loc2,0,0);
+
+               state.dec(cs::construct);
+               state.dec(cs::construct);
+               state.last_id.pop();
+             }
+           | expression '<' expression
+             {
+               state.code_gen(machine::slt,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression '>' expression
+             {
+               state.code_gen(machine::sgt,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression LTE expression
+             {
+               state.code_gen(machine::slte,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression GTE expression
+             {
+               state.code_gen(machine::sgte,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression EQ expression
+             {
+               state.code_gen(machine::seq,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression NE expression
+             {
+               state.code_gen(machine::sne,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | csg_expression EQ csg_expression
+             {
+               state.inc(cs::number); 
+               state.code_gen(machine::seq,2,state.top(cs::number),
+                              state.top(cs::construct)-1,state.top(cs::construct),
+                              0,0);
+               state.dec(cs::construct);
+               state.dec(cs::construct);
+             }
+           | csg_expression NE csg_expression
+             {
+               state.inc(cs::number); 
+               state.code_gen(machine::sne,2,state.top(cs::number),
+                              state.top(cs::construct)-1,state.top(cs::construct),
+                              0,0);
+               state.dec(cs::construct);
+               state.dec(cs::construct);
+             }
+           | expression LAND expression
+             {
+               state.code_gen(machine::land,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression LOR expression
+             {
+               state.code_gen(machine::lor,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression UPTO expression
+             {
+               state.code_gen(machine::gen,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression '-' expression
+             {
+               state.code_gen(machine::sub,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression '+' expression
+             {
+               state.code_gen(machine::add,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression '*' expression
+             {
+               state.code_gen(machine::mult,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | expression '/' expression
+             {
+               state.code_gen(machine::div,1,state.top(cs::number)-1,
+                              state.top(cs::number)-1,state.top(cs::number),
+                              0,0);
+               state.dec(cs::number);
+             }
+           | '(' expression ')'
+           | '-' expression
+             {
+               state.inc(cs::number);
+               state.code_gen(machine::seti,1,state.top(cs::number),0,0,0,-1);
+               state.code_gen(machine::mult,1,state.top(cs::number)-1,state.top(cs::number)-1,
+                              state.top(cs::number),0,0);
+               state.dec(cs::number);
+             }
+           | '!' expression 
+             {
+               state.code_gen(machine::lnot,1,state.top(cs::number),
+                              state.top(cs::number),0,0,0);
+             }
+
+declaration : type item
+              {
+                string id=state.last_id.top();
+                if(id[0]=='@')
+                {
+                  id=id.substr(1,id.size());
+                  state.code_gen(machine::copy,0,0,state.top(cs::count),0,0,0); 
+                  state.dec(cs::count); //done here because add_symbol incs cs::count
+                  state.add_symbol(id.c_str(), state.last_type.top(), symbol::arr);
+                  u_long loc=state.check_for(id.c_str()).mem_loc;
+                  state.code_gen(machine::alloc,state.last_type.top(),loc,
+                                 0,0,0,0); 
+                }
+                else
+                {
+                  state.add_symbol(id.c_str(), state.last_type.top(), symbol::var);
+                }
+                state.last_id.pop();
+                state.last_type.pop();
+              }
+            | LOAD ID  
+              {
+                u_long ploc=state.check_prim($2); 
+                state.add_symbol($2, 2, symbol::var);
+                state.code_gen(machine::pload,ploc,state.last_symbol().loc,0,0,0,0);
+              }
+                
+
+action : item '.' PRINT
+         {
+           state.inc(cs::construct);
+           state.inc(cs::number);
+           state.inc(cs::count);
+           string id=state.last_id.top();
+           if(id[0]=='@')
+           {
+             id=id.substr(1,id.size());
+             symbol sym=state.check_for(id.c_str());
+             state.code_gen(machine::load,sym.type,state.top((cs::sym_type)sym.type),
+                            sym.mem_loc,state.top(cs::count),0,0);
+             state.dec(cs::count);
+             state.code_gen(machine::spit,sym.type,state.top((cs::sym_type)sym.type),0,0,0,0);
+           }
+           else
+           {
+             symbol sym=state.check_for(id.c_str());
+             state.code_gen(machine::spit,sym.type,sym.loc,0,0,0,0);
+           }
+           state.last_id.pop();
+           
+           state.dec(cs::number);
+           state.dec(cs::count);
+         }
+       | item '.' PRINTMAP
+         {
+           state.inc(cs::construct);
+           string id=state.last_id.top();
+           if(id[0]=='@')
+           {
+             id=id.substr(1,id.size());
+             u_long loc=state.check_for(id.c_str(),2).mem_loc;
+             state.code_gen(machine::load,2,state.top(cs::construct),
+                            loc,state.top(cs::count),0,0);
+             state.dec(cs::count);
+             state.code_gen(machine::spitmap,state.top(cs::construct),0,0,0,0,0);
+           }
+           else
+           {
+             u_long loc=state.check_for(id.c_str(),2).loc;
+             state.code_gen(machine::spitmap,loc,0,0,0,0,0);
+             state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+           }
+           state.last_id.pop();
+         }
+| item '.' RENDER
+{
+    state.inc(cs::construct);
+    string id=state.last_id.top();
+    if(id[0]=='@')
+    {
+        id=id.substr(1,id.size());
+        u_long loc=state.check_for(id.c_str(),2).mem_loc;
+        state.code_gen(machine::load,2,state.top(cs::construct),
+        loc,state.top(cs::count),0,0);
+        state.dec(cs::count);
+        state.code_gen(machine::render,state.top(cs::construct),0,0,0,0,0);
+    }
+    else
+    {
+        u_long loc=state.check_for(id.c_str(),2).loc;
+        state.code_gen(machine::render,loc,0,0,0,0,0);
+        state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+    }
+    state.last_id.pop();
+}
+
+       | item '.' BUILD '(' value_list ')'
+         {
+           string id=state.last_id.top();
+           if(id[0]=='@') id=id.substr(1,id.size());
+           state.check_args(id);
+           symbol sym=state.check_for(id.c_str(), 5, symbol::proc);
+           state.code_gen(machine::jsub,0,0,0,0,0,0,sym.lab);
+           state.inc(cs::construct);
+           state.code_gen(machine::copy,2,state.top(cs::construct),sym.loc,0,0,0);
+         }
+       | scale
+       | rotate
+       | move
+
+scope : scope_head objects '}'
+        {state.dec_scope(); state.restore_context();}
+
+maybe : maybe_head cf_tail OTHERWISE statement
+        {state.backpatch_hop_to_here();}
+
+if_stm : if_head cf_tail ELSE statement
+         {state.backpatch_hop_to_here();}
+
+while_stm : loop_lab while_head while_tail
+
+param : type ID
+        {
+          u_long type=state.last_type.top();
+          if(type==0) type=1;
+          state.add_symbol($2, type, symbol::prm);
+          /*{
+            state.inc(cs::number); //FIXME: EATS Memory - permanent inc for temp
+            state.code_gen(machine::pop,1,1,state.top(cs::number),0,0,0);
+            state.code_gen(machine::cast,0,state.last_symbol().loc,state.top(cs::number),0,0,0);
+          }
+          else*/ 
+          state.code_gen(machine::pop,1,type,state.last_symbol().loc,0,0,0);
+          state.last_type.pop();
+        }
+
+item : ID
+       {state.last_id.add($1);}
+     | ID '[' expression ']'
+       {
+         string s="@"; s+=$1; state.last_id.add(s);
+         state.inc(cs::count);
+         state.code_gen(machine::cast,0,state.top(cs::count),state.top(cs::number),0,0,0);
+         state.dec(cs::number);
+       }
+
+property : X
+           {state.prop_inst_stack.add(machine::cgetx);}
+         | Y
+           {state.prop_inst_stack.add(machine::cgety);}
+         | Z
+           {state.prop_inst_stack.add(machine::cgetz);}
+         | W
+           {state.prop_inst_stack.add(machine::cgetw);}
+         | L
+           {state.prop_inst_stack.add(machine::cgetl);}
+         | H
+           {state.prop_inst_stack.add(machine::cgeth);}
+
+type : NUM_TYPE
+       {state.last_type.add(cs::number);}
+     | COUNT_TYPE
+       {state.last_type.add(cs::count);}
+     | CONSTRUCT_TYPE
+       {state.last_type.add(cs::construct);}
+     | item
+       {
+         string id=state.last_id.top();
+         if(id[0]=='@') id=id.substr(1,id.size());
+         symbol sym=state.check_for(id.c_str()); 
+         state.last_type.add((cs::sym_type)sym.type);
+       }
+
+value_list : value
+           | value_list ',' value
+           |
+
+scale : item '.' SCALE '.' axis '(' expression ')'
+        {
+          state.inc(cs::construct);
+          string id=state.last_id.top();
+          erb_op op=state.prop_inst_stack.top();
+          if(id[0]=='@')
+          {
+            id=id.substr(1,id.size());
+            u_long loc=state.check_for(id.c_str(),2).mem_loc;
+            state.code_gen(machine::load,2,state.top(cs::construct),
+                           loc,state.top(cs::count),0,0);
+          
+            state.code_gen((erb_op)(op+6), state.top(cs::construct), 
+                           state.top(cs::construct), state.top(cs::number), 0, 0, 0); 
+            state.code_gen(machine::store,2,state.top(cs::construct),loc,
+                           state.top(cs::count),0,0);
+            state.dec(cs::count);
+          }
+          else
+          {
+            u_long loc=state.check_for(id.c_str(),2).loc;
+            state.code_gen((erb_op)(op+6), loc, loc, state.top(cs::number), 0, 0, 0); 
+            state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+          }
+          state.last_id.pop();
+          state.prop_inst_stack.pop();
+          state.dec(cs::number);
+        }
+   |     item '.' SCALE '(' expression ',' expression ',' expression ')'
+        {
+          state.inc(cs::construct);
+          string id=state.last_id.top();
+          if(id[0]=='@')
+          {
+            id=id.substr(1,id.size());
+            u_long loc=state.check_for(id.c_str(),2).mem_loc;
+            state.code_gen(machine::load,2,state.top(cs::construct),
+                           loc,state.top(cs::count),0,0);
+          
+            state.code_gen(machine::cscalex, state.top(cs::construct), 
+                           state.top(cs::construct), state.top(cs::number)-2, 0, 0, 0); 
+            state.code_gen(machine::cscaley, state.top(cs::construct), 
+                           state.top(cs::construct), state.top(cs::number)-1, 0, 0, 0); 
+            state.code_gen(machine::cscalez, state.top(cs::construct), 
+                           state.top(cs::construct), state.top(cs::number), 0, 0, 0); 
+            state.code_gen(machine::store,2,state.top(cs::construct),loc,
+                           state.top(cs::count),0,0);
+            state.dec(cs::count);
+          }
+          else
+          {
+            u_long loc=state.check_for(id.c_str(),2).loc;
+            state.code_gen(machine::cscalex, loc, loc, state.top(cs::number)-2, 0, 0, 0); 
+            state.code_gen(machine::cscaley, loc, loc, state.top(cs::number)-1, 0, 0, 0); 
+            state.code_gen(machine::cscalez, loc, loc, state.top(cs::number), 0, 0, 0); 
+            state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+          }
+          state.last_id.pop();
+          state.dec(cs::number);
+          state.dec(cs::number);
+          state.dec(cs::number);
+        }
+
+rotate : item '.' ROTATE '.' axis '(' expression ')'
+         {
+           state.inc(cs::construct);
+           string id=state.last_id.top();
+           erb_op op=state.prop_inst_stack.top();
+           if(id[0]=='@')
+           {
+             id=id.substr(1,id.size());
+             u_long loc=state.check_for(id.c_str(),2).mem_loc;
+             state.code_gen(machine::load,2,state.top(cs::construct),
+                            loc,state.top(cs::count),0,0);
+           
+             state.code_gen((erb_op)(op), state.top(cs::construct), 
+                            state.top(cs::construct), state.top(cs::number), 0, 0, 0); 
+             state.code_gen(machine::store,2,state.top(cs::construct),loc,
+                            state.top(cs::count),0,0);
+             state.dec(cs::count);
+           }
+           else
+           {
+             u_long loc=state.check_for(id.c_str(),2).loc;
+             state.code_gen((erb_op)(op), loc, loc, state.top(cs::number), 0, 0, 0); 
+             state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+           }
+           state.last_id.pop();
+           state.prop_inst_stack.pop();
+           state.dec(cs::number);
+         }
+    |     item '.' ROTATE '(' expression ',' expression ',' expression ')'
+         {
+           state.inc(cs::construct);
+           string id=state.last_id.top();
+           if(id[0]=='@')
+           {
+             id=id.substr(1,id.size());
+             u_long loc=state.check_for(id.c_str(),2).mem_loc;
+             state.code_gen(machine::load,2,state.top(cs::construct),
+                            loc,state.top(cs::count),0,0);
+           
+             state.code_gen(machine::crotx, state.top(cs::construct), 
+                            state.top(cs::construct), state.top(cs::number)-2, 0, 0, 0); 
+             state.code_gen(machine::croty, state.top(cs::construct), 
+                            state.top(cs::construct), state.top(cs::number)-1, 0, 0, 0); 
+             state.code_gen(machine::crotz, state.top(cs::construct), 
+                            state.top(cs::construct), state.top(cs::number), 0, 0, 0); 
+             state.code_gen(machine::store,2,state.top(cs::construct),loc,
+                            state.top(cs::count),0,0);
+             state.dec(cs::count);
+           }
+           else
+           {
+             u_long loc=state.check_for(id.c_str(),2).loc;
+             state.code_gen(machine::crotx, loc, loc, state.top(cs::number)-2, 0, 0, 0); 
+             state.code_gen(machine::croty, loc, loc, state.top(cs::number)-1, 0, 0, 0); 
+             state.code_gen(machine::crotz, loc, loc, state.top(cs::number), 0, 0, 0); 
+             state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+           }
+           state.last_id.pop();
+           state.dec(cs::number);
+           state.dec(cs::number);
+           state.dec(cs::number);
+         }
+         
+move : item '.' MOVE '.' axis '(' expression ')'
+       {
+         state.inc(cs::construct);
+         string id=state.last_id.top();
+         erb_op op=state.prop_inst_stack.top();
+         if(id[0]=='@')
+         {
+           id=id.substr(1,id.size());
+           u_long loc=state.check_for(id.c_str(),2).mem_loc;
+           state.code_gen(machine::load,2,state.top(cs::construct),
+                          loc,state.top(cs::count),0,0);
+         
+           state.code_gen((erb_op)(op+3), state.top(cs::construct), 
+                          state.top(cs::construct), state.top(cs::number), 0, 0, 0); 
+           state.code_gen(machine::store,2,state.top(cs::construct),loc,
+                          state.top(cs::count),0,0);
+           state.dec(cs::count);
+         }
+         else
+         {
+           u_long loc=state.check_for(id.c_str(),2).loc;
+           state.code_gen((erb_op)(op+3), loc, loc, state.top(cs::number), 0, 0, 0); 
+           state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+         }
+         state.last_id.pop();
+         state.prop_inst_stack.pop();
+         state.dec(cs::number);
+       }
+   |    item '.' MOVE '(' expression ',' expression ',' expression ')'
+       {
+         state.inc(cs::construct);
+         string id=state.last_id.top();
+         if(id[0]=='@')
+         {
+           id=id.substr(1,id.size());
+           u_long loc=state.check_for(id.c_str(),2).mem_loc;
+           state.code_gen(machine::load,2,state.top(cs::construct),
+                          loc,state.top(cs::count),0,0);
+         
+           state.code_gen(machine::cmovex, state.top(cs::construct), 
+                          state.top(cs::construct), state.top(cs::number)-2, 0, 0, 0); 
+           state.code_gen(machine::cmovey, state.top(cs::construct), 
+                          state.top(cs::construct), state.top(cs::number)-1, 0, 0, 0); 
+           state.code_gen(machine::cmovez, state.top(cs::construct), 
+                          state.top(cs::construct), state.top(cs::number), 0, 0, 0); 
+           state.code_gen(machine::store,2,state.top(cs::construct),loc,
+                          state.top(cs::count),0,0);
+           state.dec(cs::count);
+         }
+         else
+         {
+           u_long loc=state.check_for(id.c_str(),2).loc;
+           state.code_gen(machine::cmovex, loc, loc, state.top(cs::number)-2, 0, 0, 0); 
+           state.code_gen(machine::cmovey, loc, loc, state.top(cs::number)-1, 0, 0, 0); 
+           state.code_gen(machine::cmovez, loc, loc, state.top(cs::number), 0, 0, 0); 
+           state.code_gen(machine::copy,2,state.top(cs::construct),loc,0,0,0);
+         }
+         state.last_id.pop();
+         state.dec(cs::number);
+         state.dec(cs::number);
+         state.dec(cs::number);
+       }
+
+scope_head : '{'
+             {state.inc_scope();}
+
+maybe_head : MAYBE '(' expression
+             {
+               state.inc(cs::number);
+               state.inc(cs::number);
+               state.inc(cs::number);
+               state.code_gen(machine::seti,1,state.top(cs::number)-1,0,0,0,0);
+               state.code_gen(machine::seti,1,state.top(cs::number),0,0,0,1);
+               state.code_gen(machine::gen,1,state.top(cs::number)-2,
+                              state.top(cs::number)-1,state.top(cs::number),0,0);
+               state.code_gen(machine::jgt,1,state.top(cs::number)-2,state.top(cs::number)-3,0,0,0);
+               state.backpatch.add(state.src_out.size()-1);
+               state.dec(cs::number);
+               state.dec(cs::number);
+               state.dec(cs::number);
+               state.dec(cs::number);
+             }
+
+cf_tail : ')' statement
+          {
+            string lab=state.next_label();
+            state.src_out[state.backpatch.top()]+=lab;
+            state.backpatch.pop();
+           
+            state.code_gen(machine::jump,0,0,0,0,0,0);
+            state.backpatch.add(state.src_out.size()-1);
+            state.src_out.add(lab+':');
+          }
+
+if_head : IF '(' expression
+          {
+            state.inc(cs::number);
+            state.code_gen(machine::seti,1,state.top(cs::number),0,0,0,0);
+            state.code_gen(machine::jeq,1,state.top(cs::number),state.top(cs::number)-1,0,0,0);
+            state.backpatch.add(state.src_out.size()-1);
+            state.dec(cs::number);
+            state.dec(cs::number);
+          }
+
+loop_lab : {
+             string lab=state.next_label();
+             state.loop_lab.add(lab);
+             state.src_out.add(lab+": //while loop");
+             state.in_loop++;
+             state.num_breaks.add(0);
+           }
+
+while_head : WHILE '(' expression
+             {
+               state.inc(cs::number);
+               state.code_gen(machine::seti,1,state.top(cs::number),0,0,0,0);
+               state.code_gen(machine::jeq,1,state.top(cs::number),state.top(cs::number)-1,0,0,0);
+               state.backpatch.add(state.src_out.size()-1);
+               state.dec(cs::number);
+               state.dec(cs::number);
+             }
+
+while_tail : ')' statement
+          {
+            state.code_gen(machine::jump,0,0,0,0,0,0,state.loop_lab.top());
+            state.loop_lab.pop();
+            string lab=state.next_label();
+            state.src_out.add(lab+':');
+            state.src_out[state.backpatch.top()]+=lab;
+            state.backpatch.pop();
+
+            for(u_long i=0; i<state.num_breaks.top(); i++)
+            {
+              state.src_out[state.break_loc.top()]+=lab;
+              state.break_loc.pop();
+            }
+            state.in_loop--;
+            state.num_breaks.pop();
+          }
+
+value : expression
+        {
+          state.args.add(1);
+          state.code_gen(machine::push,1,1,state.top(cs::number),0,0,0);
+          state.dec(cs::number);
+        }
+      | csg_expression
+        {
+          state.args.add(2);
+          state.code_gen(machine::push,1,2,state.top(cs::construct),0,0,0);
+          state.dec(cs::construct);
+        }
+
+axis : X
+       {state.prop_inst_stack.add(machine::crotx);}
+     | Y
+       {state.prop_inst_stack.add(machine::croty);}
+     | Z
+       {state.prop_inst_stack.add(machine::crotz);}
+
+%%
+
+int yyerror(char *s)
+{
+  fprintf(stderr, "Error Line %lu: %s\n", yyline, s);
+  return 0;
+}

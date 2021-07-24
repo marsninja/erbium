@@ -1,0 +1,51 @@
+load cube;
+
+/* Testing */
+
+/* my
+   coments
+   to see
+   if they
+   work
+   */
+
+//i hope they do
+
+chair
+{
+  cube seat:
+  {
+    w=40->300;
+    l=40->300;
+    h=10;
+  }
+  cube legsblock:
+  {
+    w=seat.w;
+    l=seat.l;
+    h=20->150;
+    x=seat.x;
+    y=seat.y;
+    z=seat.z-h;
+  }
+  cube legsub1:
+  {
+    dim=legsblock.dim;
+    pos=legsblock.pos;
+    w=50->(seat.w-4);
+    x=legsblock.x+((legsblock.w-w)/2);
+  }
+  cube legsub2:
+  {
+    dim=legsblock.dim;
+    pos=legsblock.pos;
+    l=50->(seat.l-4);
+    y=legsblock.y+((legsblock.l-l)/2);
+  }
+  cube back:
+  {
+    w=seat.w;
+    l=10; 
+    h=20->150;
+  }
+} [seat+((legsblock-legsub1)-legsub2)+back]

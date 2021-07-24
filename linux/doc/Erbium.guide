@@ -1,0 +1,60 @@
+Erbium (Er: Environment Regeneration)
+
+Erbium is a system for the design of the automation intelligence for the 
+creation, modification, and regeneration of any 3d structure, including 
+but not limited to enclosed environments, unenclosed environments, and 
+other arbitrary 3d structures. These may include anything from the 
+intricate buildings, city layout, and other dwelling environments to 
+objects, such as cars, furniture, etc. Essentially with Erbium an 
+automation intelligence can be designed for any 3d structure that can be 
+represented with CSG (constructive solid geometry.)
+
+The purpose of this automation intelligence (auto-intel) is to generate 
+varied and distinct instances of an object, given a loose description of 
+how the object is designed. Within the Erbium Paradigm we use randomization 
+to achieve variety. Our automation system is allowed to be "creative." We 
+define a point of creativity as a point where our auto-intel is allowed 
+to randomly do something.
+
+
+The Automation Intelligence
+
+The Automation Intelligence is, in essence, the entity that will be putting
+the 3d structure together. This is an algorithmic process, thus the auto-
+intel must encapsulate the property of stepping through a sequence of 
+actions. There must be a machine that executes the sequence of actions that 
+our auto-intel dictates. Therefore the core of Erbium is a machine; The 
+Erbium Execution Machine. The auto-intelligence is essentially a program 
+executed on this machine.
+
+
+
+The Erbium System
+
+
+The Erbium CSG Library
+
+The Erbium CSG (constructive solid geometry) Library is the foundation for
+the representation and manipulation of the polyhedra that forms the 3d 
+structure of the auto-intel. It is the 3d analytical geometry and internal
+representation system; All 3 CSG boolean operations are implemented. These
+include the union, intersection, and subtraction. 
+
+
+The Erbium Execution Machine
+
+This is the Core of the erbium system. It execute auto-intel programs.
+These programs consist of a sequence of atomic instructions. The set of
+these instructions compose Erbiums ISA (instruction set architecture.)
+This machine is aware of 3 variable types; counters, values, and 
+constructs. Counters are essetially long integers; used to keep track of 
+how many of something there is, and to assist with control flow. Values
+are doubles; used for locations in cartesian space, angular degrees, etc.
+A construct is a set of one or more polyhedra. 
+
+
+The Erbium Assembler
+
+This is a tool for users to write programs with the ISA and easily translate
+it into bytecode. It works like most assemblers, the users may use labels
+freely. 

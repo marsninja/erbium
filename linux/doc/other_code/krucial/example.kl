@@ -1,0 +1,15 @@
+seti int 0 0
+seti str 0 " Experience the Beauty!\n"
+seti int 1 1000
+loop:
+jeq int 0 1 e
+jsub sub1
+subi int 1 1 1
+jump loop
+e:
+end
+
+sub1:
+syscall 0 int 1
+syscall 0 str 0
+ret
